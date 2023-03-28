@@ -1,4 +1,4 @@
-// Game: 
+// Game: 2048
 // at starting
 // generate a 4X4 array with all zerros 
 // put two 2s at random positions
