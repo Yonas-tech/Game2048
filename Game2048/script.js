@@ -1,6 +1,8 @@
 // Game: 2048
+
 // at starting
-// generate a 4X4 array with all zerros 
+// ######################### Generate a 4X4 array with all zerros but two 2s at random positions
+
 let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
 // put two 2s at random positions
@@ -21,8 +23,8 @@ board2048[randRow][randColm] = 2;
 board2048[randRow][randColm] = 2;
 
 
+//  ######################### Board printing format 
 
-// show it to the user
 function printGameBoard(gameBoard) {
     console.log(
         `               ---------
@@ -33,6 +35,8 @@ function printGameBoard(gameBoard) {
                ---------`);
 }
 
+
+// ######################### Game Status:
 
 function checkGameStatus(gameBoard) {
     // check if any of the cells value is == 2048
@@ -56,8 +60,12 @@ function checkGameStatus(gameBoard) {
 
 
 
-// if w => sweep up adding and moving the numbers {
+// sweepColumnUp() is the original algorithm, and it is for the 'Up' move.
+// For all the other moves (down, left, right) the array gets transposed/reversed as necessary. Then,  
+// the sweepColumnUp() is used to sweep through the numbers. And finally, the returned arra is 
+// transposed/reversed to arrive to the resulting final array. 
 
+// Move: Up 
 function sweepColumnUp(gameBoard) {
     for (let i = 0; i < gameBoard[0].length; i++) {
         if (gameBoard[0][i] == gameBoard[1][i] && gameBoard[0][i] != 0) {
@@ -216,32 +224,53 @@ function sweepColumnUp(gameBoard) {
     return gameBoard;
 }
 
-// Left Move function
+// Move: Left 
 function leftMove(gameBoard){
     let transposedGameboard = transpose(gameBoard);
     sweepColumnUp(transposedGameboard);
     return transpose(transposedGameboard)
 }
-// down Move 
+// Move: Down
 function downMove(gameBoard){
     let reversed = gameBoard.reverse();
     sweepColumnUp(reversed);
     return reversed.reverse();
 }
 
-// right Move
+// Move: Right
 function rightMove(gameBoard){
-    let rotated = transpose(board2048).reverse();
+    let rotated = transpose(gameBoard).reverse();
     sweepColumnUp(rotated)
     return transpose(rotated.reverse())
 }
 
 
-
+// for transposing an array 
 function transpose(array){
     return array[0].map((_, colIndex) => array.map(row => row[colIndex]));
 }
 
+let userInput = ' '; // this will change ['w','s','a','d']
+
+
+// RUN this to process each user input
+// [w, s, a, d]
+if (userInput == 'w' || userInput == 'W') { // up 
+    board2048 = sweepColumnUp(board2048)
+    printGameBoard(board2048);
+}
+else if(userInput == "a" || userInput == "A"){ // left
+    board2048 = leftMove(board2048);
+    printGameBoard(board2048);
+}
+else if(userInput == 's' || userInput == 'S'){
+    board2048 = downMove(board2048);
+    printGameBoard(board2048);
+}
+else if(userInput == 'd' || userInput == 'D'){
+    board2048 = rightMove(board2048);
+    printGameBoard(board2048);
+}
 
 
 
@@ -251,66 +280,27 @@ function transpose(array){
 // LATER ON, IT WILL GO THROUGHT A LOOP TO WORK FOR ALL THE COLUMNS 
 
 
-
-let userInput = 'd'; // this will change
-
 board2048 = [[8, 0, 4, 4], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
 printGameBoard(board2048)
 
-// [w, s, a, d]
-if (userInput == 'w') { // up 
-    board2048 = sweepColumnUp(board2048)
-    printGameBoard(board2048);
-}
-else if(userInput == "a"){ // left
-    board2048 = leftMove(board2048);
-    printGameBoard(board2048);
-}
-else if(userInput == 's'){
-    board2048 = downMove(board2048);
-    printGameBoard(board2048);
-}
-else if(userInput == 'd'){
-    board2048 = rightMove(board2048);
-    printGameBoard(board2048);
-}
+
 
 // console.log(board2048);
 // printGameBoard(transpose(board2048).reverse());
 
 
+// Find each 0 locations on the array after each move;
+function getAllValIndexes(array, val=0) {
+    let indexes = [], j, i, clmn;
+    for (i=0; i< array.length; i++){
+        clmn = array[i]
+        for(j = 0; j < clmn.length; j++){
+            if (array[i][j] === val){
+                indexes.push([i,j]);
+            }
+    }
+    }
+    return indexes;
+}
 
-// printGameBoard()
-
-        // if there are adjusent tiles with same nonzero values(columsize) 
-            // column 0
-
-            // column 1
-
-            // column 2
-
-            // column 3
-
-        // if nothing other than 0s are in between the two tiles
-            // add the numbers (=4)
-            // put it all the way to the top of the calumn
-        // select a random cell with >0
-        // change the value to 2
-        // return the result
-        // }
-
-
-
-// else if s => { ...
-    //
-    // }
-// else if a => { ...
-    //
-    // }
-// else if d => { ...
-    //
-    // }
-// else => { no response}
-
-// wait for next valid key from user
-
+console.log(getAllValIndexes(board2048,0))
