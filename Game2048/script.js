@@ -225,20 +225,20 @@ function sweepColumnUp(gameBoard) {
 }
 
 // Move: Left 
-function leftMove(gameBoard){
+function leftMove(gameBoard) {
     let transposedGameboard = transpose(gameBoard);
     sweepColumnUp(transposedGameboard);
     return transpose(transposedGameboard)
 }
 // Move: Down
-function downMove(gameBoard){
+function downMove(gameBoard) {
     let reversed = gameBoard.reverse();
     sweepColumnUp(reversed);
     return reversed.reverse();
 }
 
 // Move: Right
-function rightMove(gameBoard){
+function rightMove(gameBoard) {
     let rotated = transpose(gameBoard).reverse();
     sweepColumnUp(rotated)
     return transpose(rotated.reverse())
@@ -246,61 +246,69 @@ function rightMove(gameBoard){
 
 
 // for transposing an array 
-function transpose(array){
+function transpose(array) {
     return array[0].map((_, colIndex) => array.map(row => row[colIndex]));
 }
 
-let userInput = ' '; // this will change ['w','s','a','d']
 
-
-// RUN this to process each user input
-// [w, s, a, d]
-if (userInput == 'w' || userInput == 'W') { // up 
-    board2048 = sweepColumnUp(board2048)
-    printGameBoard(board2048);
-}
-else if(userInput == "a" || userInput == "A"){ // left
-    board2048 = leftMove(board2048);
-    printGameBoard(board2048);
-}
-else if(userInput == 's' || userInput == 'S'){
-    board2048 = downMove(board2048);
-    printGameBoard(board2048);
-}
-else if(userInput == 'd' || userInput == 'D'){
-    board2048 = rightMove(board2048);
-    printGameBoard(board2048);
-}
-
-
-
-// FOR TEST
-
-// THE Functions WORK ONLY ON UP MOVEMENT NOW
-// LATER ON, IT WILL GO THROUGHT A LOOP TO WORK FOR ALL THE COLUMNS 
-
-
-board2048 = [[8, 0, 4, 4], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
-printGameBoard(board2048)
-
-
-
-// console.log(board2048);
-// printGameBoard(transpose(board2048).reverse());
-
-
-// Find each 0 locations on the array after each move;
-function getAllValIndexes(array, val=0) {
-    let indexes = [], j, i, clmn;
-    for (i=0; i< array.length; i++){
-        clmn = array[i]
-        for(j = 0; j < clmn.length; j++){
-            if (array[i][j] === val){
-                indexes.push([i,j]);
-            }
+// ##################### RUN this to process each user input
+function move(gameBoard, moveDerectionInput) { //['w','s','a','d']
+    // [w, s, a, d]
+    if (moveDerectionInput == 'w' || moveDerectionInput == 'W') { // up 
+        gameBoard = sweepColumnUp(gameBoard)
+        return gameBoard;
     }
+    else if (moveDerectionInput == "a" || moveDerectionInput == "A") { // left
+        gameBoard = leftMove(gameBoard);
+        return gameBoard;
+    }
+    else if (moveDerectionInput == 's' || moveDerectionInput == 'S') {
+        gameBoard = downMove(gameBoard);
+        return gameBoard;
+    }
+    else if (moveDerectionInput == 'd' || moveDerectionInput == 'D') {
+        gameBoard = rightMove(gameBoard);
+        return gameBoard;
+    }
+}
+// Find each 0 locations on the array after each move;
+function getAllValIndexes(array, val = 0) {
+    let indexes = [], j, i, clmn;
+    for (i = 0; i < array.length; i++) {
+        clmn = array[i]
+        for (j = 0; j < clmn.length; j++) {
+            if (array[i][j] === val) {
+                indexes.push([i, j]);
+            }
+        }
     }
     return indexes;
 }
 
-console.log(getAllValIndexes(board2048,0))
+function plugIn2ForA0(gameBoard){
+    let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
+    console.log(plugIndex)
+    gameBoard[plugIndex[0]][plugIndex[1]] = 2;
+    return gameBoard;
+}
+
+
+
+// ############### FOR TEST
+
+// NOTE: THE Functions WORK ON ALL MOVEMENTS NOW
+
+board2048 = [[8, 0, 4, 4], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
+printGameBoard(board2048)
+board2048 = move(board2048, 'w')
+printGameBoard(board2048)
+
+let allZeroIndexes = getAllValIndexes(board2048, 0);
+
+// ###################### NOW: randomly select of the indexes and use it to plug a 2 into the gameBoard 
+// let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
+// console.log(plugIndex)
+// board2048[plugIndex[0]][plugIndex[1]] = 2;
+plugIn2ForA0(board2048)
+printGameBoard(board2048);
+move(board2048, )
