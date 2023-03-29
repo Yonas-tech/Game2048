@@ -229,6 +229,12 @@ function downMove(gameBoard){
     return reversed.reverse();
 }
 
+// right Move
+function rightMove(gameBoard){
+    let rotated = transpose(board2048).reverse();
+    sweepColumnUp(rotated)
+    return transpose(rotated.reverse())
+}
 
 
 
@@ -246,7 +252,7 @@ function transpose(array){
 
 
 
-let userInput = 's'; // this will change
+let userInput = 'd'; // this will change
 
 board2048 = [[8, 0, 4, 4], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
 printGameBoard(board2048)
@@ -264,9 +270,13 @@ else if(userInput == 's'){
     board2048 = downMove(board2048);
     printGameBoard(board2048);
 }
+else if(userInput == 'd'){
+    board2048 = rightMove(board2048);
+    printGameBoard(board2048);
+}
 
-
-
+// console.log(board2048);
+// printGameBoard(transpose(board2048).reverse());
 
 
 
