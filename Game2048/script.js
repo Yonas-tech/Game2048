@@ -1,7 +1,7 @@
 // Game: 2048
 // at starting
 // generate a 4X4 array with all zerros 
-let gameBoard = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
 
 // put two 2s at random positions
 const rowLength = 4;
@@ -14,15 +14,16 @@ function generateRandCell() {
 
 let [randRow, randColm] = generateRandCell();
 // console.log(randRow + ", "+ randColm)
-gameBoard[randRow][randColm] = 2;
+board2048[randRow][randColm] = 2;
 
 [randRow, randColm] = generateRandCell();
 // console.log(randRow + ", "+ randColm)
-gameBoard[randRow][randColm] = 2;
+board2048[randRow][randColm] = 2;
+
 
 
 // show it to the user
-function printGameBoard(){
+function printGameBoard(gameBoard) {
     console.log(
         `               ---------
               | ${gameBoard[0]} |
@@ -45,185 +46,232 @@ function checkGameStatus(gameBoard) {
     }
     // else { check if the grid is full of numbers and no adjusent numbers are equal
     // => "You Lost!" }
-    
-
-
 
 
 }
-
-
-// FOR TEST
-gameBoard = [[8, 0, 0, 0], [2, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]];
-printGameBoard()
-
-
-// THE FOLLOWING WORKS ONLY ON COLUMN 0 RIGHT NOW
-// LATER ON, IT WILL GO THROUGHT A LOOP TO WORK FOR ALL THE COLUMNS 
 
 
 // wait for the user input [up, down, left, or right] and/or [w, s, a, d]
-let userInput = 'w'; // this will change
 
-// if w => move the 2s up {
-if (userInput == 'w') {
-    if (gameBoard[0][0] == gameBoard[1][0] && gameBoard[0][0]!=0) {
-        gameBoard[0][0] = gameBoard[0][0] + gameBoard[1][0];
-        console.log('condition1')
-        if (gameBoard[2][0] == gameBoard[3][0]) {
-            gameBoard[1][0] = gameBoard[2][0] + gameBoard[3][0];
-            gameBoard[2][0] = 0;
-            gameBoard[3][0] = 0;
-            console.log('condition1-2')
-        }
-        else {
-            if(gameBoard[2][0]!= 0) { 
-                gameBoard[1][0] = gameBoard[2][0];
-                gameBoard[2][0] = gameBoard[3][0];
-                console.log('condition1-3')
-            } 
-            else{
-                gameBoard[1][0] = gameBoard[3][0];
-                gameBoard[2][0] = 0;
-                console.log('condition1-4')
+
+
+
+// if w => sweep up adding and moving the numbers {
+
+function sweepColumnUp(gameBoard) {
+    for (let i = 0; i < gameBoard[0].length; i++) {
+        if (gameBoard[0][i] == gameBoard[1][i] && gameBoard[0][i] != 0) {
+            gameBoard[0][i] = gameBoard[0][i] + gameBoard[1][i];
+            console.log('condition1')
+            if (gameBoard[2][i] == gameBoard[3][i]) {
+                gameBoard[1][i] = gameBoard[2][i] + gameBoard[3][i];
+                gameBoard[2][i] = 0;
+                gameBoard[3][i] = 0;
+                console.log('condition1-2')
             }
-            gameBoard[3][0] = 0; 
+            else {
+                if (gameBoard[2][i] != 0) {
+                    gameBoard[1][i] = gameBoard[2][i];
+                    gameBoard[2][i] = gameBoard[3][i];
+                    console.log('condition1-3')
+                }
+                else {
+                    gameBoard[1][i] = gameBoard[3][i];
+                    gameBoard[2][i] = 0;
+                    console.log('condition1-4')
+                }
+                gameBoard[3][i] = 0;
+            }
         }
-    }
-    else if (gameBoard[1][0] == gameBoard[2][0] && gameBoard[1][0]!=0) {
-        console.log('condition2')
-        if (gameBoard[0][0] == 0) {
-            gameBoard[0][0] = gameBoard[1][0] + gameBoard[2][0];
-            gameBoard[1][0] = gameBoard[3][0];
-            gameBoard[2][0] = 0;
-            gameBoard[3][0] = 0;
-            console.log('condition2-1')
+        else if (gameBoard[1][i] == gameBoard[2][i] && gameBoard[1][i] != 0) {
+            console.log('condition2')
+            if (gameBoard[0][i] == 0) {
+                gameBoard[0][i] = gameBoard[1][i] + gameBoard[2][i];
+                gameBoard[1][i] = gameBoard[3][i];
+                gameBoard[2][i] = 0;
+                gameBoard[3][i] = 0;
+                console.log('condition2-1')
+            }
+            else { // gameBoard[0][i] is already nonzero
+                gameBoard[1][i] = gameBoard[1][i] + gameBoard[2][i];
+                gameBoard[2][i] = gameBoard[3][i];
+                gameBoard[3][i] = 0;
+                console.log('condition2-2')
+            }
         }
-        else { // gameBoard[0][0] is already nonzero
-            gameBoard[1][0] = gameBoard[1][0] + gameBoard[2][0];
-            gameBoard[2][0] = gameBoard[3][0];
-            gameBoard[3][0] = 0;
-            console.log('condition2-2')
-        }
-    }
 
-    else if (gameBoard[0][0] == gameBoard[2][0] && gameBoard[1][0] == 0 && gameBoard[0][0]!= 0) {
-        gameBoard[0][0] = gameBoard[0][0] + gameBoard[2][0];
-        gameBoard[1][0] = gameBoard[3][0];
-        gameBoard[2][0] = 0;
-        gameBoard[3][0] = 0;
-        console.log('condition3')
-    }
-    else if (gameBoard[0][0] == gameBoard[3][0] && gameBoard[1][0] == 0 && gameBoard[2][0] == 0) {
-        gameBoard[0][0] = gameBoard[0][0] + gameBoard[3][0];
-        //gameBoard[1][0] = 0; // already 0
-        //gameBoard[2][0] = 0; // already 0
-        gameBoard[3][0] = 0;
-        console.log('condition4')
-    }
+        else if (gameBoard[0][i] == gameBoard[2][i] && gameBoard[1][i] == 0 && gameBoard[0][i] != 0) {
+            gameBoard[0][i] = gameBoard[0][i] + gameBoard[2][i];
+            gameBoard[1][i] = gameBoard[3][i];
+            gameBoard[2][i] = 0;
+            gameBoard[3][i] = 0;
+            console.log('condition3')
+        }
+        else if (gameBoard[0][i] == gameBoard[3][i] && gameBoard[1][i] == 0 && gameBoard[2][i] == 0) {
+            gameBoard[0][i] = gameBoard[0][i] + gameBoard[3][i];
+            //gameBoard[1][i] = 0; // already 0
+            //gameBoard[2][i] = 0; // already 0
+            gameBoard[3][i] = 0;
+            console.log('condition4')
+        }
 
-    else if (gameBoard[1][0] == gameBoard[3][0] && gameBoard[2][0] == 0) {
-        console.log('condition5')
-        if (gameBoard[0][0] == 0) {
-            gameBoard[0][0] = gameBoard[1][0] + gameBoard[3][0];
-            gameBoard[1][0] = 0;
-            //gameBoard[2][0] = 0; // already 0 
-            console.log('condition5-1')
+        else if (gameBoard[1][i] == gameBoard[3][i] && gameBoard[2][i] == 0) {
+            console.log('condition5')
+            if (gameBoard[0][i] == 0) {
+                gameBoard[0][i] = gameBoard[1][i] + gameBoard[3][i];
+                gameBoard[1][i] = 0;
+                //gameBoard[2][i] = 0; // already 0 
+                console.log('condition5-1')
+            }
+            else {
+                gameBoard[1][i] = gameBoard[1][i] + gameBoard[3][i];
+                // gameBoard[0][i] = stays non-zero 
+                // gameBoard[2][i] = 0; // already 0 
+                console.log('condition5-2')
+            }
+            gameBoard[3][i] = 0;
         }
-        else {
-            gameBoard[1][0] = gameBoard[1][0] + gameBoard[3][0];
-            // gameBoard[0][0] = stays non-zero 
-            // gameBoard[2][0] = 0; // already 0 
-            console.log('condition5-2')
-        }
-        gameBoard[3][0] = 0;
-    }
 
-    else if (gameBoard[2][0] == gameBoard[3][0] && gameBoard[2][0]!=0) {
-        console.log('condition6')
-        if (gameBoard[0][0] == 0 && gameBoard[1][0] == 0) {
-            gameBoard[0][0] = gameBoard[2][0] + gameBoard[3][0];
-            gameBoard[1][0] = 0;
-            gameBoard[2][0] = 0;
-            gameBoard[3][0] = 0;
-            console.log('condition6-1')
+        else if (gameBoard[2][i] == gameBoard[3][i] && gameBoard[2][i] != 0) {
+            console.log('condition6')
+            if (gameBoard[0][i] == 0 && gameBoard[1][i] == 0) {
+                gameBoard[0][i] = gameBoard[2][i] + gameBoard[3][i];
+                gameBoard[1][i] = 0;
+                gameBoard[2][i] = 0;
+                gameBoard[3][i] = 0;
+                console.log('condition6-1')
+            }
+            else if (gameBoard[0][i] == 0 && gameBoard[1][i] != 0) { // ;
+                gameBoard[0][i] = gameBoard[1][i];
+                gameBoard[1][i] = gameBoard[2][i] + gameBoard[3][i];
+                gameBoard[2][i] = 0;
+                gameBoard[3][i] = 0;
+                console.log('condition6-2')
+            }
+            else if (gameBoard[0][i] != 0 && gameBoard[1][i] == 0) { // ;
+                // gameBoard[0][i] = gameBoard[0][i]; //the same
+                gameBoard[1][i] = gameBoard[2][i] + gameBoard[3][i];
+                gameBoard[2][i] = 0;
+                gameBoard[3][i] = 0;
+                console.log('condition6-3')
+            }
+            else if (gameBoard[0][i] != 0 && gameBoard[1][i] != 0) { // ;
+                // gameBoard[0][i] = gameBoard[0][i]; //the same
+                // gameBoard[1][i] = gameBoard[1][i]; //the same
+                gameBoard[2][i] = gameBoard[2][i] + gameBoard[3][i];
+                gameBoard[3][i] = 0;
+                console.log('condition6-4')
+            }
         }
-        else if (gameBoard[0][0] == 0 && gameBoard[1][0] != 0) { // ;
-            gameBoard[0][0] = gameBoard[1][0];
-            gameBoard[1][0] = gameBoard[2][0] + gameBoard[3][0];
-            gameBoard[2][0] = 0;
-            gameBoard[3][0] = 0;
-            console.log('condition6-2')
-        }
-        else if (gameBoard[0][0] != 0 && gameBoard[1][0] == 0) { // ;
-            // gameBoard[0][0] = gameBoard[0][0]; //the same
-            gameBoard[1][0] = gameBoard[2][0] + gameBoard[3][0];
-            gameBoard[2][0] = 0;
-            gameBoard[3][0] = 0;
-            console.log('condition6-3')
-        }
-        else if (gameBoard[0][0] != 0 && gameBoard[1][0] != 0) { // ;
-            // gameBoard[0][0] = gameBoard[0][0]; //the same
-            // gameBoard[1][0] = gameBoard[1][0]; //the same
-            gameBoard[2][0] = gameBoard[2][0] + gameBoard[3][0];
-            gameBoard[3][0] = 0;
-            console.log('condition6-4')
-        }
-    }
 
-    // if there is only 1 number at one of the cells along the column: while val(0,0) ==0 
-    else if(gameBoard[0][0] == 0 && gameBoard[1][0] !=0 ){
-        console.log('condition7')
-        gameBoard[0][0] = gameBoard[1][0];
-        if(gameBoard[2][0]!=0){
-            gameBoard[1][0] = gameBoard[2][0]
-            gameBoard[2][0] = gameBoard[3][0]
+        // if there is only 1 number at one of the cells along the column: while val(0,0) ==0 
+        else if (gameBoard[0][i] == 0 && gameBoard[1][i] != 0) {
+            console.log('condition7')
+            gameBoard[0][i] = gameBoard[1][i];
+            if (gameBoard[2][i] != 0) {
+                gameBoard[1][i] = gameBoard[2][i]
+                gameBoard[2][i] = gameBoard[3][i]
+            }
+            else {
+                gameBoard[1][i] = gameBoard[3][i]
+                gameBoard[2][i] = 0
+            }
+            gameBoard[3][i] = 0;
         }
-        else{
-            gameBoard[1][0] = gameBoard[3][0]
-            gameBoard[2][0] = 0
+        else if (gameBoard[0][i] == 0 && gameBoard[1][i] == 0 && gameBoard[2][i] != 0) {
+            console.log('condition8')
+            gameBoard[0][i] = gameBoard[2][i];
+            gameBoard[1][i] = gameBoard[3][i]
+            gameBoard[2][i] = 0;
+            gameBoard[3][i] = 0;
         }
-        gameBoard[3][0] = 0;
-    }
-    else if(gameBoard[0][0] == 0 && gameBoard[1][0] ==0 && gameBoard[2][0] !=0){
-        console.log('condition8')
-        gameBoard[0][0] = gameBoard[2][0];
-        gameBoard[1][0] = gameBoard[3][0]
-        gameBoard[2][0] = 0;
-        gameBoard[3][0] = 0;
-    }
-    else if(gameBoard[0][0] == 0 && gameBoard[1][0] ==0 && gameBoard[2][0] ==0 && gameBoard[3][0] !=0){
-        console.log('condition9')
-        gameBoard[0][0] = gameBoard[3][0];
-        gameBoard[1][0] = 0
-        gameBoard[2][0] = 0
-        gameBoard[3][0] = 0;
-    }
+        else if (gameBoard[0][i] == 0 && gameBoard[1][i] == 0 && gameBoard[2][i] == 0 && gameBoard[3][i] != 0) {
+            console.log('condition9')
+            gameBoard[0][i] = gameBoard[3][i];
+            gameBoard[1][i] = 0
+            gameBoard[2][i] = 0
+            gameBoard[3][i] = 0;
+        }
 
-    // if there is 1 number at one of the cells along the column: while val(0,0) !=0 && != THAT NUMBER
-    else if(gameBoard[0][0] != 0 && gameBoard[1][0] ==0 && gameBoard[2][0] !=0){
-        console.log('condition10')
-        gameBoard[1][0] = gameBoard[2][0];
-        gameBoard[2][0] = gameBoard[3][0]
-        gameBoard[3][0] = 0;
-    }
-    else if(gameBoard[0][0] != 0 && gameBoard[1][0] ==0 && gameBoard[2][0] ==0 && gameBoard[3][0] !=0){
-        console.log('condition11')
-        gameBoard[1][0] = gameBoard[3][0];
-        gameBoard[2][0] = 0
-        gameBoard[3][0] = 0
-    }
+        // if there is 1 number at one of the cells along the column: while val(0,0) !=0 && != THAT NUMBER
+        else if (gameBoard[0][i] != 0 && gameBoard[1][i] == 0 && gameBoard[2][i] != 0) {
+            console.log('condition10')
+            gameBoard[1][i] = gameBoard[2][i];
+            gameBoard[2][i] = gameBoard[3][i]
+            gameBoard[3][i] = 0;
+        }
+        else if (gameBoard[0][i] != 0 && gameBoard[1][i] == 0 && gameBoard[2][i] == 0 && gameBoard[3][i] != 0) {
+            console.log('condition11')
+            gameBoard[1][i] = gameBoard[3][i];
+            gameBoard[2][i] = 0
+            gameBoard[3][i] = 0
+        }
 
-    else if(gameBoard[0][0] != 0 && gameBoard[1][0] !=0 && gameBoard[2][0] ==0 && gameBoard[3][0] !=0){
-        console.log('condition11')
-        gameBoard[2][0] = gameBoard[3][0];
-        gameBoard[3][0] = 0
+        else if (gameBoard[0][i] != 0 && gameBoard[1][i] != 0 && gameBoard[2][i] == 0 && gameBoard[3][i] != 0) {
+            console.log('condition11')
+            gameBoard[2][i] = gameBoard[3][i];
+            gameBoard[3][i] = 0
+        }
     }
-
-
+    return gameBoard;
 }
 
-printGameBoard()
+// Left Move function
+function leftMove(gameBoard){
+    let transposedGameboard = transpose(gameBoard);
+    sweepColumnUp(transposedGameboard);
+    return transpose(transposedGameboard)
+}
+// down Move 
+function downMove(gameBoard){
+    let reversed = gameBoard.reverse();
+    sweepColumnUp(reversed);
+    return reversed.reverse();
+}
+
+
+
+
+function transpose(array){
+    return array[0].map((_, colIndex) => array.map(row => row[colIndex]));
+}
+
+
+
+
+// FOR TEST
+
+// THE Functions WORK ONLY ON UP MOVEMENT NOW
+// LATER ON, IT WILL GO THROUGHT A LOOP TO WORK FOR ALL THE COLUMNS 
+
+
+
+let userInput = 's'; // this will change
+
+board2048 = [[8, 0, 4, 4], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
+printGameBoard(board2048)
+
+// [w, s, a, d]
+if (userInput == 'w') { // up 
+    board2048 = sweepColumnUp(board2048)
+    printGameBoard(board2048);
+}
+else if(userInput == "a"){ // left
+    board2048 = leftMove(board2048);
+    printGameBoard(board2048);
+}
+else if(userInput == 's'){
+    board2048 = downMove(board2048);
+    printGameBoard(board2048);
+}
+
+
+
+
+
+
+// printGameBoard()
+
         // if there are adjusent tiles with same nonzero values(columsize) 
             // column 0
 
