@@ -285,10 +285,10 @@ function getAllValIndexes(array, val = 0) {
     return indexes;
 }
 
-function plugIn2ForA0(gameBoard){
+function plugInValForA0(gameBoard, val=2){
     let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
     console.log(plugIndex)
-    gameBoard[plugIndex[0]][plugIndex[1]] = 2;
+    gameBoard[plugIndex[0]][plugIndex[1]] = val;
     return gameBoard;
 }
 
