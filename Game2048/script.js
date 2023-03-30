@@ -13,6 +13,7 @@ class Game2048 {
     // Move: Up 
     moveUp() {
         this.board = this.sweepColumnUp(this.board);
+        this.plugInValForA0();
     }
 
     // Move: Left 
@@ -20,6 +21,7 @@ class Game2048 {
         this.board = this.transpose(this.board);
         this.board = this.sweepColumnUp(this.board);
         this.board = this.transpose(this.board)
+        this.plugInValForA0();
     }
 
     // Move: Down
@@ -27,6 +29,7 @@ class Game2048 {
         this.board = this.board.reverse();
         this.board = this.sweepColumnUp(this.board);
         this.board = this.board.reverse();    // ???? check if this works, otherwise will asign it to a variable first
+        this.plugInValForA0();
     }
 
     // Move: Right
@@ -34,10 +37,15 @@ class Game2048 {
         this.board = this.transpose(this.board).reverse();
         this.board = this.sweepColumnUp(this.board)
         this.board =  this.transpose(this.board.reverse())
+        this.plugInValForA0();
     }
 
     recordScore(){
-        this.score = Math.max([this.board[0], this.board[1], this.board[2], this.board[3]]);
+        let max = (a,b) => {return a < b ? b:a;} 
+        this.score = [this.board[0].reduce(max), 
+            this.board[1].reduce(max), 
+            this.board[2].reduce(max), 
+            this.board[3].reduce(max)].reduce(max);
     }
 
     getScore(){
@@ -209,7 +217,7 @@ class Game2048 {
     }
 
     // to plug in value at any position with current value of 0
-    plugInValForA0(gameBoard, val = 2) {
+    plugInValForA0(gameBoard=this.board, val = 2) {
         let allZeroIndexes = this.getAllValIndexes(gameBoard, 0);
         let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
         gameBoard[plugIndex[0]][plugIndex[1]] = val;
@@ -217,7 +225,7 @@ class Game2048 {
     }
 
     // Find all 0s locations on the array given;
-    getAllValIndexes(array, val = 0) {
+    getAllValIndexes(array=this.board, val = 0) {
         let indexes = [], j, i, clmn;
         for (i = 0; i < array.length; i++) {
             clmn = array[i]
@@ -283,9 +291,10 @@ class Game2048 {
 
 class GameDirector {
     constructor(){
-        this.board = new Game2048();
+        this.game = new Game2048();
         this.maxScore = 0;
         this.pastScores = [];
+        this.status = 0;   // 0: continue playing;  1: player won;  -1: player lost;
     }
     // Reminder: wait for the user input [up, down, left, or right] and/or [w, s, a, d]
 
@@ -293,91 +302,111 @@ class GameDirector {
     move(moveDirectionInput) { //['w','s','a','d']
         // [w, s, a, d]
         if (moveDirectionInput == 'w' || moveDirectionInput == 'W') { // up 
-            this.board.moveUp()  // process the move
-            console.log("Move: up")          // 
+            this.game.moveUp()                     // process the move
+            console.log("Move: up")                 // 
+            this.game.recordScore();        // record the current score for the current game
             this.checkGameStatus();               // after the move, check the game status againest the rules
-            this.board.recordScore();        // record the current score for the current game
-            return this.board;
+            // console.log(this.game)
+            return this.game;
         }
         else if (moveDirectionInput == "a" || moveDirectionInput == "A") { // left
-            this.board.moveLeft();
-            console.log("Move: right")
-            this.checkGameStatus()
-            this.board.recordScore();
-            return this.board;
+            this.game.moveLeft();
+            console.log("Move: left")
+            this.game.recordScore();
+            this.checkGameStatus();               // after the move, check the game status againest the rules
+            // console.log(this.game)
+            return this.game;
         }
         else if (moveDirectionInput == 's' || moveDirectionInput == 'S') { // down
-            this.board.moveDown();
+            this.game.moveDown();
             console.log("Move: down")
             this.checkGameStatus()
-            this.board.recordScore();
-            return this.board;
+            this.game.recordScore();
+            return this.game;
         }
         else if (moveDirectionInput == 'd' || moveDirectionInput == 'D') { // right
-            this.board.moveRight();
-            console.log("Move: left")
+            this.game.moveRight();
+            console.log("Move: right")
             this.checkGameStatus()
-            this.board.recordScore();
-            return this.board;
+            this.game.recordScore();
+            return this.game;
         }
     }
 
     // ######################### Game Status:
     checkGameStatus() {
-        // check if any of the cells value is == 2048
-        for (let i = 0; i < this.board.length; i++) {
-            for (let j = 0; j < this.board[0].length; j++) {
-                if (this.board[i][j] == 2048) {
+        let zeroIndexes = this.game.getAllValIndexes(this.game.board, 0);
+
+        // check if any of the cells value is == 2048 
+        // => "You Win!"
+        for (let i = 0; i < this.game.board.length; i++) {
+            for (let j = 0; j < this.game.board[0].length; j++) {
+                if (this.game.board[i][j] == 2048) {
                     console.log("GAME OVER")
                     console.log("You Won!")
-                    return 1;
+                    this.status = 1;
+                    return;
                 }
             }
         }
-        // else { check if the grid is full of numbers and no adjusent numbers are equal
-        // => "You Lost!" }
 
-        let zeroIndexes = this.board.getAllValIndexes(this.board, 0);
-
+        // Check the continue game cases(=2) 
+        // Case 1:
         if (zeroIndexes != null) {
             console.log("continue playing")
-            return 0;
+            this.status = 0;
+            return;
         }
+        // Case 2: 
         if (zeroIndexes == null) {
             // if no adjucent 2 indxes values are equal;
             let i, j, k;
 
-            for (i = 0; i < (this.board.length - 1); i++) {
-                for (j = 0; j < (this.board[i].length - 1); j++) {
-                    if (this.board[i][j] == this.board[i][j + 1]) {
+            for (i = 0; i < (this.game.board.length - 1); i++) {
+                for (j = 0; j < (this.game.board[i].length - 1); j++) {
+                    if (this.game.board[i][j] == this.game.board[i][j + 1]) {
                         console.log("continue playing");
-                        return 0;
+                        this.status =  0;
+                        return;
                     }
                 }
-                for (k = 0; k < (this.board[i].length); k++) {
-                    if (this.board[i][k] == this.board[i + 1][k]) {
+                for (k = 0; k < (this.game.board[i].length); k++) {
+                    if (this.game.board[i][k] == this.game.board[i + 1][k]) {
                         console.log("continue playing");
-                        return 0;
+                        this.status = 0;
+                        return;
                     }
                 }
             }
         }
+
+        // If it gets here: the grid is full of numbers and no adjusent numbers are equal
+        // => "You Lost!" 
         console.log("GAME OVER")
         console.log("You Lost!")
-        return -1; // 
+        this.status = -1; // 
+
+        if(this.status = -1 || this.status == 1){  // ??????????????????????????
+            // gameOver(this.status)
+            // Do something here depending on win or lose
+            // show a small window showing the result, and a restart button 
+            
+        }
+
     }
 
     // Restart the board, maxScore won't be reset
     restart() {
-        this.board.recordScore();
-        this.pastScores.push(this.board.getScore());
-        this.board = new Game2048();
+        this.game.recordScore();
+        this.pastScores.push(this.game.getScore());
+        this.game = new Game2048();
         console.log("GAME RESTARTED.")
     }
 
     // getter methods:
     getBoard(){
-        return this.board;
+        console.log(this.game.board)
+        return this.game.board;
     }
     getMaxScore(){
         return this.maxScore;
@@ -386,15 +415,17 @@ class GameDirector {
         return this.pastScores;
     }
     printGameBoard() { // print formated game board to the console. 
+        let currentBoard = this.getBoard();
         console.log(
             `               ---------
-                  | ${this.board[0]} |
-                  | ${this.board[1]} |
-                  | ${this.board[2]} |
-                  | ${this.board[3]} | 
+                  | ${currentBoard[0]} |
+                  | ${currentBoard[1]} |
+                  | ${currentBoard[2]} |
+                  | ${currentBoard[3]} | 
                    ---------`);
     }
 
+    // setter Mothds:
     setMaxScore(){ // calculates and sets the max past score, maxScore
         this.maxScore = Math.max(this.pastScores);
     }
@@ -432,23 +463,38 @@ console.log(play2048);
 play2048.getBoard();
 play2048.printGameBoard()
 
-play2048.move("W")
+play2048.move("w")
 play2048.getBoard();
 
-play2048.move("W")
+play2048.move("w")
 play2048.getBoard();
 
-play2048.move("W")
+play2048.move("w")
 play2048.getBoard();
 
-play2048.move("W")
+play2048.move("w")
 play2048.getBoard();
 
-play2048.move("W")
+play2048.move("w")
+play2048.getBoard();
+
+play2048.move("w")
+play2048.getBoard();
+
+play2048.move("w")
+play2048.getBoard();
+
+play2048.move("w")
 play2048.getBoard();
 
 
 play2048.printGameBoard()
 
 
+function gameOver() {
+if(play2048.status = -1 || play2048.status == 1){
+    // gameOver(this.status)
+    // Do something here depending on win or lose
+}
 
+}
