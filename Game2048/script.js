@@ -36,19 +36,19 @@ class Game2048 {
     moveRight() {
         this.board = this.transpose(this.board).reverse();
         this.board = this.sweepColumnUp(this.board)
-        this.board =  this.transpose(this.board.reverse())
+        this.board = this.transpose(this.board.reverse())
         this.plugInValForA0();
     }
 
-    recordScore(){
-        let max = (a,b) => {return a < b ? b:a;} 
-        this.score = [this.board[0].reduce(max), 
-            this.board[1].reduce(max), 
-            this.board[2].reduce(max), 
-            this.board[3].reduce(max)].reduce(max);
+    recordScore() {
+        let max = (a, b) => { return a < b ? b : a; }
+        this.score = [this.board[0].reduce(max),
+        this.board[1].reduce(max),
+        this.board[2].reduce(max),
+        this.board[3].reduce(max)].reduce(max);
     }
 
-    getScore(){
+    getScore() {
         return this.score;
     }
 
@@ -217,7 +217,7 @@ class Game2048 {
     }
 
     // to plug in value at any position with current value of 0
-    plugInValForA0(gameBoard=this.board, val = 2) {
+    plugInValForA0(gameBoard = this.board, val = 2) {
         let allZeroIndexes = this.getAllValIndexes(gameBoard, 0);
         let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
         gameBoard[plugIndex[0]][plugIndex[1]] = val;
@@ -225,7 +225,7 @@ class Game2048 {
     }
 
     // Find all 0s locations on the array given;
-    getAllValIndexes(array=this.board, val = 0) {
+    getAllValIndexes(array = this.board, val = 0) {
         let indexes = [], j, i, clmn;
         for (i = 0; i < array.length; i++) {
             clmn = array[i]
@@ -290,7 +290,7 @@ class Game2048 {
 // #############################  Class: Game Director ###################
 
 class GameDirector {
-    constructor(){
+    constructor() {
         this.game = new Game2048();
         this.maxScore = 0;
         this.pastScores = [];
@@ -301,36 +301,28 @@ class GameDirector {
     // ##################### RUN this to process each user input
     move(moveDirectionInput) { //['w','s','a','d']
         // [w, s, a, d]
-        if (moveDirectionInput == 'w' || moveDirectionInput == 'W') { // up 
+        if (moveDirectionInput == 'w' || moveDirectionInput == 'W') {      // up 
             this.game.moveUp()                     // process the move
             console.log("Move: up")                 // 
-            this.game.recordScore();        // record the current score for the current game
-            this.checkGameStatus();               // after the move, check the game status againest the rules
-            // console.log(this.game)
-            return this.game;
         }
         else if (moveDirectionInput == "a" || moveDirectionInput == "A") { // left
             this.game.moveLeft();
             console.log("Move: left")
-            this.game.recordScore();
-            this.checkGameStatus();               // after the move, check the game status againest the rules
-            // console.log(this.game)
-            return this.game;
         }
         else if (moveDirectionInput == 's' || moveDirectionInput == 'S') { // down
             this.game.moveDown();
             console.log("Move: down")
-            this.checkGameStatus()
-            this.game.recordScore();
-            return this.game;
         }
         else if (moveDirectionInput == 'd' || moveDirectionInput == 'D') { // right
             this.game.moveRight();
             console.log("Move: right")
-            this.checkGameStatus()
-            this.game.recordScore();
-            return this.game;
         }
+
+        this.game.recordScore();        // record the current score for the current game
+        this.setMaxScore()              // check/record the current max score for the current game
+        this.checkGameStatus();         // after the move, check the game status againest the rules
+
+        // return this.game;
     }
 
     // ######################### Game Status:
@@ -366,7 +358,7 @@ class GameDirector {
                 for (j = 0; j < (this.game.board[i].length - 1); j++) {
                     if (this.game.board[i][j] == this.game.board[i][j + 1]) {
                         console.log("continue playing");
-                        this.status =  0;
+                        this.status = 0;
                         return;
                     }
                 }
@@ -386,11 +378,11 @@ class GameDirector {
         console.log("You Lost!")
         this.status = -1; // 
 
-        if(this.status = -1 || this.status == 1){  // ??????????????????????????
+        if (this.status = -1 || this.status == 1) {  // ??????????????????????????
             // gameOver(this.status)
             // Do something here depending on win or lose
             // show a small window showing the result, and a restart button 
-            
+
         }
 
     }
@@ -400,18 +392,18 @@ class GameDirector {
         this.game.recordScore();
         this.pastScores.push(this.game.getScore());
         this.game = new Game2048();
-        console.log("GAME RESTARTED.")
+        console.log("\n GAME RESTARTED.\n")
     }
 
     // getter methods:
-    getBoard(){
+    getBoard() {
         console.log(this.game.board)
         return this.game.board;
     }
-    getMaxScore(){
+    getMaxScore() {
         return this.maxScore;
     }
-    getPastScores(){
+    getPastScores() {
         return this.pastScores;
     }
     printGameBoard() { // print formated game board to the console. 
@@ -426,11 +418,20 @@ class GameDirector {
     }
 
     // setter Mothds:
-    setMaxScore(){ // calculates and sets the max past score, maxScore
-        this.maxScore = Math.max(this.pastScores);
+    setMaxScore() { // calculates and sets the max past score, maxScore
+        if (this.pastScores != null) {
+            let pastMax = Math.max(this.pastScores);
+            this.maxScore = pastMax > this.game.getScore() ? pastMax : this.game.getScore()
+            this.game.getScore
+        }
+        else {
+            this.maxScore = this.maxScore > this.game.getScore() ? this.maxScore : this.game.getMaxScore()
+        }
+        console.log(this.maxScore)
     }
-}
+    
 
+}
 
 
 
@@ -442,59 +443,51 @@ class GameDirector {
 // NOTE: THE Functions WORK ON ALL MOVEMENTS NOW
 
 // let board2048 = [[2, 2, 2, 2], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
-// printGameBoard(board2048)
 
-// board2048 = move(board2048, 'd')
-// printGameBoard(board2048)
-
-// board2048 = plugInValForA0(board2048)
-// printGameBoard(board2048);
-// checkGameStatus(board2048)
-
-// board2048 = move(board2048, 'd')
-// printGameBoard(board2048);
-
-// board2048 = plugInValForA0(board2048)
-// printGameBoard(board2048);
-// checkGameStatus(board2048)
 
 let play2048 = new GameDirector();
 console.log(play2048);
 play2048.getBoard();
 play2048.printGameBoard()
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.printGameBoard()
+// "Reset Game"
+play2048.restart()
+play2048.printGameBoard()
+
+
+play2048.move("d")
 play2048.getBoard();
 
-play2048.move("w")
+play2048.move("d")
 play2048.getBoard();
 
 
 play2048.printGameBoard()
-
+console.log(play2048.game.score)
 
 function gameOver() {
-if(play2048.status = -1 || play2048.status == 1){
-    // gameOver(this.status)
-    // Do something here depending on win or lose
-}
+    if (play2048.status = -1 || play2048.status == 1) {
+        // gameOver(this.status)
+        // Do something here depending on win or lose
+    }
 
 }
