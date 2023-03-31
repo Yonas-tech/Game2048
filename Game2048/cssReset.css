@@ -1,0 +1,47 @@
+/* CSS Reset */
+/* Source: https://www.joshwcomeau.com/css/custom-css-reset/#one-box-sizing-model-2 */
+/* by Josh W Comeau */
+
+* {
+    margin: 0;
+    padding: 0;
+    line-height: calc(1em + 0.5rem);
+ 
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+html, body, #__next { /*#__next is for JS framework*/
+    height: 100%;
+  }
+
+body {
+  -webkit-font-smoothing: antialiased
+}
+
+img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+}
+
+input, button, textarea, select {
+    font: inherit;
+}
+
+/* p {
+    overflow-wrap: break-word;
+    
+} */
+
+p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    /*hyphens: auto;*/
+}
+
+/* for JS framework */
+#root, #__next {
+    isolation: isolate;
+}
+

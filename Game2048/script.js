@@ -429,7 +429,6 @@ class GameDirector {
         }
         console.log(this.maxScore)
     }
-    
 
 }
 
@@ -443,7 +442,6 @@ class GameDirector {
 // NOTE: THE Functions WORK ON ALL MOVEMENTS NOW
 
 // let board2048 = [[2, 2, 2, 2], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
-
 
 let play2048 = new GameDirector();
 console.log(play2048);
@@ -480,9 +478,10 @@ play2048.getBoard();
 play2048.move("d")
 play2048.getBoard();
 
-
 play2048.printGameBoard()
 console.log(play2048.game.score)
+
+
 
 function gameOver() {
     if (play2048.status = -1 || play2048.status == 1) {

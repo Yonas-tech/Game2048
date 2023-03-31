@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="cssReset.css">
     <link rel="stylesheet" href="style.css">
     <script defer src="script.js" charset="utf-8"></script>
 </head>
+
 <body>
-    
+    <div class="flex-container">
+        <div class="header">
+            <h1>Game of 2048</h1>
+        </div>
+        <main>
+
+            <div class="score-board">
+                <div>Score:</div>
+                <div>Max Score:</div>
+            </div>
+
+            <div class="new-game">
+                <button>New Game</button>
+            </div>
+
+            <div class="board grid-container">
+                <div id="00" class="board-cell"></div>
+                <div id="01" class="board-cell"></div>
+                <div id="02" class="board-cell"></div>
+                <div id="03" class="board-cell"></div>
+                <div id="10" class="board-cell"></div>
+                <div id="11" class="board-cell"></div>
+                <div id="12" class="board-cell"></div>
+                <div id="13" class="board-cell"></div>
+                <div id="20" class="board-cell"></div>
+                <div id="21" class="board-cell"></div>
+                <div id="22" class="board-cell"></div>
+                <div id="23" class="board-cell"></div>
+                <div id="30" class="board-cell"></div>
+                <div id="31" class="board-cell"></div>
+                <div id="32" class="board-cell"></div>
+                <div id="33" class="board-cell"></div>
+            </div>
+            
+
+            <div class="controls">
+                <button class="up">UP</button>
+                <button class="left">LEFT</button>
+                <button class="down">DOWN</button>
+                <button class="right">RIGHT</button>
+            </div>
+            
+        </main>
+    </div>
 </body>
+
 </html>
