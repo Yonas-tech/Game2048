@@ -397,7 +397,7 @@ class GameDirector {
 
     // getter methods:
     getBoard() {
-        console.log(this.game.board)
+        // console.log(this.game.board)
         return this.game.board;
     }
     getMaxScore() {
@@ -433,7 +433,7 @@ class GameDirector {
 }
 
 
-
+let play2048 = new GameDirector();
 
 
 
@@ -443,43 +443,44 @@ class GameDirector {
 
 // let board2048 = [[2, 2, 2, 2], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
 
-let play2048 = new GameDirector();
-console.log(play2048);
-play2048.getBoard();
-play2048.printGameBoard()
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.move("d")
-play2048.getBoard();
-
-play2048.printGameBoard()
-// "Reset Game"
-play2048.restart()
-play2048.printGameBoard()
 
 
-play2048.move("d")
-play2048.getBoard();
+// console.log(play2048);
+// play2048.getBoard();
+// play2048.printGameBoard()
 
-play2048.move("d")
-play2048.getBoard();
+// play2048.move("d")
+// play2048.getBoard();
 
-play2048.printGameBoard()
-console.log(play2048.game.score)
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.printGameBoard()
+// // "Reset Game"
+// play2048.restart()
+// play2048.printGameBoard()
+
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.move("d")
+// play2048.getBoard();
+
+// play2048.printGameBoard()
+// console.log(play2048.game.score)
 
 
 
@@ -489,4 +490,79 @@ function gameOver() {
         // Do something here depending on win or lose
     }
 
+}
+
+
+
+// ########################################################################################################################
+let boardEl = document.querySelector("#board")
+let allCellEls = document.querySelectorAll(".board-cell");
+console.log(allCellEls)
+
+
+// let cell00 = document.querySelector("#cl00");
+// let cell01 = document.querySelector("#cl01");
+// let cell02 = document.querySelector("#cl02");
+// let cell03 = document.querySelector("#cl03");
+// let cell10 = document.querySelector("#cl10");
+// let cell11 = document.querySelector("#cl11");
+// let cell12 = document.querySelector("#cl12");
+// let cell13 = document.querySelector("#cl13");
+// let cell20 = document.querySelector("#cl20");
+// let cell21 = document.querySelector("#cl21");
+// let cell22 = document.querySelector("#cl22");
+// let cell23 = document.querySelector("#cl23");
+// let cell30 = document.querySelector("#cl30");
+// let cell31 = document.querySelector("#cl31");
+// let cell32 = document.querySelector("#cl32");
+// let cell33 = document.querySelector("#cl33");
+
+let controlsEl = document.querySelector(".controls");
+let mainEl = document.querySelector("main");
+
+// controlls
+let upBtn = document.querySelector(".up")
+let downBtn = document.querySelector(".down")
+let rightBtn = document.querySelector(".right")
+let leftBtn = document.querySelector(".left")
+
+
+
+mainEl.addEventListener('click', handleClick);
+
+// mainEl.addEventListener('click', handleClick);
+let columns = play2048.getBoard()[0].length;
+let rows = play2048.getBoard().length;
+
+
+function updateBoard() {
+    let k = 0;
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+            allCellEls[k].textContent = play2048.getBoard()[i][j];
+            k++
+        }
+    }
+}
+updateBoard()
+
+function handleClick(event) {
+    let element = event.target;
+
+    if (element === upBtn) {
+        play2048.move("w")
+        updateBoard()
+    }
+    else if (element === downBtn) {
+        play2048.move("s")
+        updateBoard()
+    }
+    else if (element === rightBtn) {
+        play2048.move("d")
+        updateBoard()
+    }
+    else if (element === leftBtn) {
+        play2048.move("a")
+        updateBoard()
+    }
 }

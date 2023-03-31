@@ -53,6 +53,9 @@ button {
     /* height: 100px;
     width: 100px; */
     background-color: aqua;
+    text-align: center;
+    text-justify: center;
+    font-size: 60px;
 }
 
 .controls {
