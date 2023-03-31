@@ -296,24 +296,23 @@ class GameDirector {
         this.pastScores = [];
         this.status = 0;   // 0: continue playing;  1: player won;  -1: player lost;
     }
-    // Reminder: wait for the user input [up, down, left, or right] and/or [w, s, a, d]
 
     // ##################### RUN this to process each user input
-    move(moveDirectionInput) { //['w','s','a','d']
+    move(moveDirectionInput) { // ['ArrowLeft', 'KeyA', 'ArrowDown', 'KeyS', 'ArrowUp', 'KeyW', 'ArrowRight', 'KeyD']
         // [w, s, a, d]
-        if (moveDirectionInput == 'w' || moveDirectionInput == 'W') {      // up 
+        if (moveDirectionInput == 'w' || moveDirectionInput == 'KeyW' || moveDirectionInput == 'ArrowUp') {      // up 
             this.game.moveUp()                     // process the move
             console.log("Move: up")                 // 
         }
-        else if (moveDirectionInput == "a" || moveDirectionInput == "A") { // left
+        else if (moveDirectionInput == "a" || moveDirectionInput == "KeyA"|| moveDirectionInput == 'ArrowLeft') { // left
             this.game.moveLeft();
             console.log("Move: left")
         }
-        else if (moveDirectionInput == 's' || moveDirectionInput == 'S') { // down
+        else if (moveDirectionInput == 's' || moveDirectionInput == 'KeyS'|| moveDirectionInput == 'ArrowDown') { // down
             this.game.moveDown();
             console.log("Move: down")
         }
-        else if (moveDirectionInput == 'd' || moveDirectionInput == 'D') { // right
+        else if (moveDirectionInput == 'd' || moveDirectionInput == 'KeyD'|| moveDirectionInput == 'ArrowRight') { // right
             this.game.moveRight();
             console.log("Move: right")
         }
@@ -496,11 +495,11 @@ function gameOver() {
 
 // ##################################################### DOM Manipulations ###################################################################
 
-let boardEl = document.querySelector("#board");
-let allCellEls = document.querySelectorAll(".board-cell");
+const boardEl = document.querySelector("#board");
+const allCellEls = document.querySelectorAll(".board-cell");
 // console.log(allCellEls)
 
-
+// #
 // let cell00 = document.querySelector("#cl00");
 // let cell01 = document.querySelector("#cl01");
 // let cell02 = document.querySelector("#cl02");
@@ -518,25 +517,26 @@ let allCellEls = document.querySelectorAll(".board-cell");
 // let cell32 = document.querySelector("#cl32");
 // let cell33 = document.querySelector("#cl33");
 
-let controlsEl = document.querySelector(".controls");
-let mainEl = document.querySelector("main");
+const controlsEl = document.querySelector(".controls");
+const mainEl = document.querySelector("main");
 
 // controlls
-let upBtn = document.querySelector(".up");
-let downBtn = document.querySelector(".down");
-let rightBtn = document.querySelector(".right");
-let leftBtn = document.querySelector(".left");
-let scoreEl = document.querySelector(".score");
-let maxScoreEl = document.querySelector(".maxScore");
-let resetEl = document.querySelector(".new-game");
+const upBtn = document.querySelector(".up");
+const downBtn = document.querySelector(".down");
+const rightBtn = document.querySelector(".right");
+const leftBtn = document.querySelector(".left");
+const scoreEl = document.querySelector(".score");
+const maxScoreEl = document.querySelector(".maxScore");
+const resetEl = document.querySelector(".new-game");
 
 mainEl.addEventListener('click', handleClick);
+document.addEventListener('keydown', handleKeyboard);
+const moveKeys = ['ArrowLeft', 'KeyA', 'ArrowDown', 'KeyS', 'ArrowUp', 'KeyW', 'ArrowRight', 'KeyD'];
 
-// mainEl.addEventListener('click', handleClick);
-let columns = play2048.getBoard()[0].length;
-let rows = play2048.getBoard().length;
+const columns = play2048.getBoard()[0].length;
+const rows = play2048.getBoard().length;
 
-
+// update the board whenever necessary
 function updateBoard() {
     scoreEl.textContent = play2048.game.getScore();
     maxScoreEl.textContent = play2048.getMaxScore();
@@ -554,12 +554,11 @@ function updateBoard() {
 updateBoard()
 
 function handleClick(event) {
-    let element = event.target;
+    const element = event.target;
 
     if (element === upBtn) {
         play2048.move("w")
         updateBoard()
-
     }
     else if (element === downBtn) {
         play2048.move("s")
@@ -578,4 +577,14 @@ function handleClick(event) {
         updateBoard()
         console.log("here 1")
     }
+}
+
+function handleKeyboard(event) {
+    const keyName = event.code;
+
+    if (moveKeys.indexOf(keyName) != -1){
+        play2048.move(keyName)
+        updateBoard()
+    }
+
 }
