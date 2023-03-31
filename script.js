@@ -216,7 +216,7 @@ class Game2048 {
         return gameBoard;
     }
 
-    // to plug in value at any position with current value of 0
+    // to plug in value at a random position with current value of 0
     plugInValForA0(gameBoard = this.board, val = 2) {
         let allZeroIndexes = this.getAllValIndexes(gameBoard, 0);
         let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
@@ -245,7 +245,7 @@ class Game2048 {
 
     generateBoard() {
         let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-        // plug in 2 at two random positions
+        // plug in 2s at two random positions for starting;
         board2048 = this.plugInValForA0(board2048, 2);
         board2048 = this.plugInValForA0(board2048, 2)
         return board2048;
@@ -382,6 +382,7 @@ class GameDirector {
             // gameOver(this.status)
             // Do something here depending on win or lose
             // show a small window showing the result, and a restart button 
+            this.pastScores.push(this.game.getScore());
 
         }
 
@@ -427,9 +428,8 @@ class GameDirector {
         else {
             this.maxScore = this.maxScore > this.game.getScore() ? this.maxScore : this.game.getMaxScore()
         }
-        console.log(this.maxScore)
+        // console.log(this.maxScore)
     }
-
 }
 
 
@@ -496,9 +496,9 @@ function gameOver() {
 
 // ##################################################### DOM Manipulations ###################################################################
 
-let boardEl = document.querySelector("#board")
+let boardEl = document.querySelector("#board");
 let allCellEls = document.querySelectorAll(".board-cell");
-console.log(allCellEls)
+// console.log(allCellEls)
 
 
 // let cell00 = document.querySelector("#cl00");
@@ -522,12 +522,13 @@ let controlsEl = document.querySelector(".controls");
 let mainEl = document.querySelector("main");
 
 // controlls
-let upBtn = document.querySelector(".up")
-let downBtn = document.querySelector(".down")
-let rightBtn = document.querySelector(".right")
-let leftBtn = document.querySelector(".left")
-
-
+let upBtn = document.querySelector(".up");
+let downBtn = document.querySelector(".down");
+let rightBtn = document.querySelector(".right");
+let leftBtn = document.querySelector(".left");
+let scoreEl = document.querySelector(".score");
+let maxScoreEl = document.querySelector(".maxScore");
+let resetEl = document.querySelector(".new-game");
 
 mainEl.addEventListener('click', handleClick);
 
@@ -537,6 +538,8 @@ let rows = play2048.getBoard().length;
 
 
 function updateBoard() {
+    scoreEl.textContent = play2048.game.getScore();
+    maxScoreEl.textContent = play2048.getMaxScore();
     let k = 0;
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
@@ -556,6 +559,7 @@ function handleClick(event) {
     if (element === upBtn) {
         play2048.move("w")
         updateBoard()
+
     }
     else if (element === downBtn) {
         play2048.move("s")
@@ -568,5 +572,10 @@ function handleClick(event) {
     else if (element === leftBtn) {
         play2048.move("a")
         updateBoard()
+    }
+    else if (element === resetEl){
+        play2048.restart()
+        updateBoard()
+        console.log("here 1")
     }
 }
