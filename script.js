@@ -494,7 +494,8 @@ function gameOver() {
 
 
 
-// ########################################################################################################################
+// ##################################################### DOM Manipulations ###################################################################
+
 let boardEl = document.querySelector("#board")
 let allCellEls = document.querySelectorAll(".board-cell");
 console.log(allCellEls)
@@ -540,6 +541,9 @@ function updateBoard() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             allCellEls[k].textContent = play2048.getBoard()[i][j];
+            if(allCellEls[k].textContent == 0){
+                allCellEls[k].textContent = "";
+            }
             k++
         }
     }
