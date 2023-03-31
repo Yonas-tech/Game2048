@@ -7,7 +7,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh
+    height: 100vh;
 }
 
 .header{
@@ -22,9 +22,10 @@ main {
     justify-content: space-around;
     align-items: flex-start;
     flex-wrap: wrap;
-    max-width: 400px;
+    max-width: 600px;
+    /* min-width: 400px; */
     height: 100%;
-    margin-top: 20px;
+    margin: 20px;
     align-content: space-between;
 }
 
@@ -43,8 +44,9 @@ button {
 
 .board {
     display: grid;
+    width: 500px;
     height: 400px;
-    width: 400px;
+    /* min-width: 400px; */
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
     gap: 15px
