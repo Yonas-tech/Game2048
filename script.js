@@ -18,10 +18,15 @@ class Game2048 {
 
     // Move: Left 
     moveLeft() {
+        let oldBoard = this.board;
         this.board = this.transpose(this.board);
         this.board = this.sweepColumnUp(this.board);
         this.board = this.transpose(this.board)
-        this.plugInValForA0();
+        if (oldBoard != this.board) {
+            console.log(oldBoard)
+            console.log(this.board)
+            this.plugInValForA0();
+        }
     }
 
     // Move: Down
@@ -250,42 +255,8 @@ class Game2048 {
         board2048 = this.plugInValForA0(board2048, 2)
         return board2048;
     }
-
-
 }
 
-
-// at starting
-// ######################### Generate a 4X4 array with all zerros but 2s at two random positions
-// function generateBoard() {
-//     let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-//     console.log(board2048)
-//     // plug in 2 at two random positions
-//     board2048 = plugInValForA0(board2048, 2);
-//     board2048 = plugInValForA0(board2048, 2)
-
-
-//     // function generateRandCell() {
-//     // const rowLength = board2048[0].length;
-//     // const colmLength = board2048.length;
-//     //     let randRow = Math.floor(Math.random() * rowLength);
-//     //     let randColm = Math.floor(Math.random() * colmLength);
-//     //     return [randRow, randColm]
-//     // }
-//     // let [randRow1, randColm1] = generateRandCell();
-//     // board2048[randRow1][randColm1] = 2;
-
-//     // let [randRow2, randColm2] = generateRandCell();
-//     //     board2048[randRow2][randColm2] = 2;
-
-//     // // In case accidentaly have the same positions selected twice for the 2s
-//     // if ([randRow2, randColm2] === [randRow2, randColm2]){
-//     //     return generateBoard();
-//     // }
-
-
-//     return board2048;
-// }
 
 // #############################  Class: Game Director ###################
 
@@ -297,22 +268,22 @@ class GameDirector {
         this.status = 0;   // 0: continue playing;  1: player won;  -1: player lost;
     }
 
-    // ##################### RUN this to process each user input
+    // ##################### RUN this to process each user input: keyboard keys & onscreen buttons
     move(moveDirectionInput) { // ['ArrowLeft', 'KeyA', 'ArrowDown', 'KeyS', 'ArrowUp', 'KeyW', 'ArrowRight', 'KeyD']
         // [w, s, a, d]
         if (moveDirectionInput == 'w' || moveDirectionInput == 'KeyW' || moveDirectionInput == 'ArrowUp') {      // up 
             this.game.moveUp()                     // process the move
             console.log("Move: up")                 // 
         }
-        else if (moveDirectionInput == "a" || moveDirectionInput == "KeyA"|| moveDirectionInput == 'ArrowLeft') { // left
+        else if (moveDirectionInput == "a" || moveDirectionInput == "KeyA" || moveDirectionInput == 'ArrowLeft') { // left
             this.game.moveLeft();
             console.log("Move: left")
         }
-        else if (moveDirectionInput == 's' || moveDirectionInput == 'KeyS'|| moveDirectionInput == 'ArrowDown') { // down
+        else if (moveDirectionInput == 's' || moveDirectionInput == 'KeyS' || moveDirectionInput == 'ArrowDown') { // down
             this.game.moveDown();
             console.log("Move: down")
         }
-        else if (moveDirectionInput == 'd' || moveDirectionInput == 'KeyD'|| moveDirectionInput == 'ArrowRight') { // right
+        else if (moveDirectionInput == 'd' || moveDirectionInput == 'KeyD' || moveDirectionInput == 'ArrowRight') { // right
             this.game.moveRight();
             console.log("Move: right")
         }
@@ -429,68 +400,22 @@ class GameDirector {
         }
         // console.log(this.maxScore)
     }
-}
 
+    gameOver() {
+        if (play2048.status = -1 || play2048.status == 1) {
+            // gameOver(this.status)
+            // Do something here depending on win or lose
+        }
 
-let play2048 = new GameDirector();
-
-
-
-// ############### FOR TEST
-
-// NOTE: THE Functions WORK ON ALL MOVEMENTS NOW
-
-// let board2048 = [[2, 2, 2, 2], [8, 0, 8, 7], [0, 8, 0, 0], [2, 0, 2, 16]];
-
-
-
-// console.log(play2048);
-// play2048.getBoard();
-// play2048.printGameBoard()
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.printGameBoard()
-// // "Reset Game"
-// play2048.restart()
-// play2048.printGameBoard()
-
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.move("d")
-// play2048.getBoard();
-
-// play2048.printGameBoard()
-// console.log(play2048.game.score)
-
-
-
-function gameOver() {
-    if (play2048.status = -1 || play2048.status == 1) {
-        // gameOver(this.status)
-        // Do something here depending on win or lose
     }
-
 }
 
+
+
+
+
+// ############################################### Instanciate GameDirector
+let play2048 = new GameDirector();
 
 
 // ##################################################### DOM Manipulations ###################################################################
@@ -498,24 +423,6 @@ function gameOver() {
 const boardEl = document.querySelector("#board");
 const allCellEls = document.querySelectorAll(".board-cell");
 // console.log(allCellEls)
-
-// #
-// let cell00 = document.querySelector("#cl00");
-// let cell01 = document.querySelector("#cl01");
-// let cell02 = document.querySelector("#cl02");
-// let cell03 = document.querySelector("#cl03");
-// let cell10 = document.querySelector("#cl10");
-// let cell11 = document.querySelector("#cl11");
-// let cell12 = document.querySelector("#cl12");
-// let cell13 = document.querySelector("#cl13");
-// let cell20 = document.querySelector("#cl20");
-// let cell21 = document.querySelector("#cl21");
-// let cell22 = document.querySelector("#cl22");
-// let cell23 = document.querySelector("#cl23");
-// let cell30 = document.querySelector("#cl30");
-// let cell31 = document.querySelector("#cl31");
-// let cell32 = document.querySelector("#cl32");
-// let cell33 = document.querySelector("#cl33");
 
 const controlsEl = document.querySelector(".controls");
 const mainEl = document.querySelector("main");
@@ -525,8 +432,10 @@ const upBtn = document.querySelector(".up");
 const downBtn = document.querySelector(".down");
 const rightBtn = document.querySelector(".right");
 const leftBtn = document.querySelector(".left");
+// scores
 const scoreEl = document.querySelector(".score");
 const maxScoreEl = document.querySelector(".maxScore");
+//reset
 const resetEl = document.querySelector(".new-game");
 
 mainEl.addEventListener('click', handleClick);
@@ -544,7 +453,7 @@ function updateBoard() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             allCellEls[k].textContent = play2048.getBoard()[i][j];
-            if(allCellEls[k].textContent == 0){
+            if (allCellEls[k].textContent == 0) {
                 allCellEls[k].textContent = "";
             }
             k++
@@ -572,7 +481,7 @@ function handleClick(event) {
         play2048.move("a")
         updateBoard()
     }
-    else if (element === resetEl){
+    else if (element === resetEl) {
         play2048.restart()
         updateBoard()
         console.log("here 1")
@@ -582,9 +491,10 @@ function handleClick(event) {
 function handleKeyboard(event) {
     const keyName = event.code;
 
-    if (moveKeys.indexOf(keyName) != -1){
+    if (moveKeys.indexOf(keyName) != -1) {
         play2048.move(keyName)
         updateBoard()
     }
 
 }
+
