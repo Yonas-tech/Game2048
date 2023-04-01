@@ -21,26 +21,74 @@ main {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
+    align-content: space-between;
     max-width: 600px;
-    /* min-width: 400px; */
     height: 100%;
     margin: 20px;
-    align-content: space-between;
+    padding: 15px;
+    border: solid black 1px;
+    border-radius: 20px;
+
 }
 
-.score-board {
-    width: 255px
+.main-top{
+    /* display: grid;
+    grid-template-columns: 1fr 1fr auto 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #008CBA;
+    height: 100px;
 }
 
-/* 
-.new-game {
+.score-label, .max-score-label{
+    text-align: end;
+
+}
+
+.score-label{
+    order: 0;
+    padding:5px;
     
-} */
+}
+.score{
+    order: 2;
+    padding:5px;
+    border: black solid 1px;
+}
+.max-score-label{
+    order: 1;
+    padding:5px;
+    
+}
+
+.max-score{
+    order: 3;
+    padding:5px;
+    border: black solid 1px;
+}
+
+.reset{
+    align-self: flex-end;
+    order: 4;
+    padding:5px;
+}
 
 button {
     font-size: 16px;
+    font-weight: strong;
+    padding: 5px;
+    border-radius: 15px;
+    
 }
+
 
 .board {
     display: grid;
@@ -49,15 +97,15 @@ button {
     /* min-width: 400px; */
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    gap: 15px
+    gap: 15px;
+    margin: 15px;
 }
 
 .board-cell {
-    /* height: 100px;
-    width: 100px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: aqua;
-    text-align: center;
-    text-justify: center;
     font-size: 60px;
 }
 
@@ -81,3 +129,51 @@ button {
 .right {
     grid-area: 2/3/3/4;
 }
+
+
+
+
+
+
+
+
+.container{
+    box-sizing: border-box;
+    max-width: 600px;
+    position: relative;
+    width:100%;
+}
+
+.overlay {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #008CBA;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+  }
+  
+  /* .container:hover .overlay {
+    width: 100%;
+  } */
+  
+  .game-over-msg, .restart-div {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+  }
+
+  .restart-div {
+    top: 55%;}

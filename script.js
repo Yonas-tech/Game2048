@@ -22,9 +22,7 @@ class Game2048 {
         this.board = this.transpose(this.board);
         this.board = this.sweepColumnUp(this.board);
         this.board = this.transpose(this.board)
-        if (oldBoard != this.board) {
-            console.log(oldBoard)
-            console.log(this.board)
+        if (oldBoard != this.board) {                                        // ??????????????????? if old board is the same as translated board, it should not plug in a 2
             this.plugInValForA0();
         }
     }
@@ -225,7 +223,10 @@ class Game2048 {
     plugInValForA0(gameBoard = this.board, val = 2) {
         let allZeroIndexes = this.getAllValIndexes(gameBoard, 0);
         let plugIndex = allZeroIndexes[Math.floor(Math.random() * allZeroIndexes.length)]
-        gameBoard[plugIndex[0]][plugIndex[1]] = val;
+        if (allZeroIndexes.length > 0) {
+            gameBoard[plugIndex[0]][plugIndex[1]] = val;
+        }
+
         return gameBoard;
     }
 
@@ -250,6 +251,14 @@ class Game2048 {
 
     generateBoard() {
         let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+        // FOR TEST:
+        board2048 = [[2, 4, 0, 16], [32, 256, 16, 0], [4, 0, 64, 16], [2, 4, 32, 0]];
+        board2048 =
+            [[2, 32, 4, 2],
+            [2, 64, 2, 16],
+            [2, 256, 32, 8],
+            [2, 32, 8, 2]];
+
         // plug in 2s at two random positions for starting;
         board2048 = this.plugInValForA0(board2048, 2);
         board2048 = this.plugInValForA0(board2048, 2)
@@ -290,7 +299,7 @@ class GameDirector {
 
         this.game.recordScore();        // record the current score for the current game
         this.setMaxScore()              // check/record the current max score for the current game
-        this.checkGameStatus();         // after the move, check the game status againest the rules
+        // this.checkGameStatus();         // after the move, check the game status againest the rules
 
         // return this.game;
     }
@@ -314,29 +323,40 @@ class GameDirector {
 
         // Check the continue game cases(=2) 
         // Case 1:
-        if (zeroIndexes != null) {
+        if (zeroIndexes.length != 0) {
+            console.log("here 1")
             console.log("continue playing")
             this.status = 0;
+            console.log("here 1")
             return;
         }
         // Case 2: 
-        if (zeroIndexes == null) {
+        if (zeroIndexes.length == 0) {
             // if no adjucent 2 indxes values are equal;
             let i, j, k;
 
-            for (i = 0; i < (this.game.board.length - 1); i++) {
+            for (i = 0; i < (this.game.board.length); i++) { // horizontal check
                 for (j = 0; j < (this.game.board[i].length - 1); j++) {
                     if (this.game.board[i][j] == this.game.board[i][j + 1]) {
                         console.log("continue playing");
                         this.status = 0;
+                        console.log("here 2")
+                        console.log(i + " " + j)
+                        console.log((i) + " " + (j + 1))
                         return;
                     }
                 }
-                for (k = 0; k < (this.game.board[i].length); k++) {
-                    if (this.game.board[i][k] == this.game.board[i + 1][k]) {
-                        console.log("continue playing");
-                        this.status = 0;
-                        return;
+                if (i + 1 < this.game.board.length) {
+                    for (k = 0; k < (this.game.board[i].length); k++) { // vertical check
+                        console.log(`(${i}, ${k}) vs (${i + 1}, ${k})`)
+                        if (this.game.board[i][k] == this.game.board[i + 1][k]) {
+                            console.log("continue playing");
+                            this.status = 0;
+                            console.log("here 3")
+                            console.log(i + " " + k)
+                            console.log((i + 1) + " " + k)
+                            return;
+                        }
                     }
                 }
             }
@@ -353,6 +373,7 @@ class GameDirector {
             // Do something here depending on win or lose
             // show a small window showing the result, and a restart button 
             this.pastScores.push(this.game.getScore());
+            console.log("game over")
 
         }
 
@@ -363,6 +384,7 @@ class GameDirector {
         this.game.recordScore();
         this.pastScores.push(this.game.getScore());
         this.game = new Game2048();
+        this.status = 0;
         console.log("\n GAME RESTARTED.\n")
     }
 
@@ -401,13 +423,6 @@ class GameDirector {
         // console.log(this.maxScore)
     }
 
-    gameOver() {
-        if (play2048.status = -1 || play2048.status == 1) {
-            // gameOver(this.status)
-            // Do something here depending on win or lose
-        }
-
-    }
 }
 
 
@@ -426,6 +441,7 @@ const allCellEls = document.querySelectorAll(".board-cell");
 
 const controlsEl = document.querySelector(".controls");
 const mainEl = document.querySelector("main");
+const overlayEl = document.querySelector(".overlay");
 
 // controlls
 const upBtn = document.querySelector(".up");
@@ -434,16 +450,21 @@ const rightBtn = document.querySelector(".right");
 const leftBtn = document.querySelector(".left");
 // scores
 const scoreEl = document.querySelector(".score");
-const maxScoreEl = document.querySelector(".maxScore");
+const maxScoreEl = document.querySelector(".max-score");
+
 //reset
 const resetEl = document.querySelector(".new-game");
 
+
+// restartEl.addEventListener('click', handleClick)
 mainEl.addEventListener('click', handleClick);
 document.addEventListener('keydown', handleKeyboard);
 const moveKeys = ['ArrowLeft', 'KeyA', 'ArrowDown', 'KeyS', 'ArrowUp', 'KeyW', 'ArrowRight', 'KeyD'];
 
 const columns = play2048.getBoard()[0].length;
 const rows = play2048.getBoard().length;
+
+
 
 // update the board whenever necessary
 function updateBoard() {
@@ -461,40 +482,76 @@ function updateBoard() {
     }
 }
 updateBoard()
+play2048.checkGameStatus()
+
+// Game Over
+let gameOverMsg = "";
+const gameOverMsgEl = document.querySelector(".game-over-msg");
+function gameOver(status) { // -1 or 1
+    if (status == -1) {
+        gameOverMsg = "<p class='overMsg'>You Lost.</p>";
+        gameOverMsgEl.appendChild = gameOverMsg;
+        overlayEl.style.width = "100%";
+    }
+    else if (status == 1) {
+        gameOverMsg = "<p class='overMsg'>You Won.</p>";
+        gameOverMsgEl.appendChild = gameOverMsg;
+        overlayEl.style.width = "100%";
+    }
+
+    // Restart after the game is over:
+    const restartEl = document.querySelector(".restart");
+    const restartDiv = document.querySelector(".restart-div")
+
+    restartDiv.addEventListener("click",
+    (e) => {
+        if(e.target == restartEl){
+            overlayEl.style.width = "0";
+            // let overMsgEl = document.querySelector(".overMsg");
+            // gameOverMsgEl.removeChild(overMsgEl);
+            play2048.restart();
+            updateBoard();
+            console.log("here 6")
+        }
+    })
+}
+
+
+
 
 function handleClick(event) {
-    const element = event.target;
+    const el = event.target;
+    // console.log(el)
+    if (play2048.status == 0) {
+        if (el === upBtn || el === downBtn || el === rightBtn || el === leftBtn) {
+            console.log(el.id);
+            const id = el.id;
+            play2048.move(id);
+            updateBoard();
+            play2048.checkGameStatus();
+        }
+    }
+    else if (play2048.status == -1 || play2048.status == 1) {
+        console.log("here 4");
+        gameOver(play2048.status);
+    }
 
-    if (element === upBtn) {
-        play2048.move("w")
+    // handle restarting game, if new game clicked before game over
+    if (el == resetEl) {
+        play2048.restart();
         updateBoard()
     }
-    else if (element === downBtn) {
-        play2048.move("s")
-        updateBoard()
-    }
-    else if (element === rightBtn) {
-        play2048.move("d")
-        updateBoard()
-    }
-    else if (element === leftBtn) {
-        play2048.move("a")
-        updateBoard()
-    }
-    else if (element === resetEl) {
-        play2048.restart()
-        updateBoard()
-        console.log("here 1")
-    }
+
 }
 
 function handleKeyboard(event) {
-    const keyName = event.code;
-
-    if (moveKeys.indexOf(keyName) != -1) {
-        play2048.move(keyName)
-        updateBoard()
+    if (play2048.status == 0) {
+        const keyName = event.code;
+        if (moveKeys.indexOf(keyName) != -1) {
+            play2048.move(keyName);
+            updateBoard();
+            play2048.checkGameStatus();
+        }
     }
-
 }
 

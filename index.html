@@ -16,49 +16,59 @@
         <div class="header">
             <h1>Game of 2048</h1>
         </div>
-        <main>
 
-            <div class="score-board">
-                <div>
-                    Score: <span class="score"></span>
+        <div class="container">
+            <main>
+                <div class="main-top">
+                    <p class="score-label">Score :</p>
+                    <p class="score"></p>
+                    <p class="max-score-label">Max Score :</p>
+                    <p class="max-score"></p>
+                    <div class="reset">
+                        <button class="new-game">New Game</button>
+                    </div>
+
                 </div>
-                <div>
-                    Max Score: <span class="maxScore"></span>
+
+                <div class="board grid-container">
+
+                    <div id="cl00" class="board-cell"></div>
+                    <div id="cl01" class="board-cell"></div>
+                    <div id="cl02" class="board-cell"></div>
+                    <div id="cl03" class="board-cell"></div>
+                    <div id="cl10" class="board-cell"></div>
+                    <div id="cl11" class="board-cell"></div>
+                    <div id="cl12" class="board-cell"></div>
+                    <div id="cl13" class="board-cell"></div>
+                    <div id="cl20" class="board-cell"></div>
+                    <div id="cl21" class="board-cell"></div>
+                    <div id="cl22" class="board-cell"></div>
+                    <div id="cl23" class="board-cell"></div>
+                    <div id="cl30" class="board-cell"></div>
+                    <div id="cl31" class="board-cell"></div>
+                    <div id="cl32" class="board-cell"></div>
+                    <div id="cl33" class="board-cell"></div>
+                </div>
+                
+                <div class="controls">
+                    <button class="up" id="ArrowUp">UP</button>
+                    <button class="left" id="ArrowLeft">LEFT</button>
+                    <button class="down" id="ArrowDown">DOWN</button>
+                    <button class="right" id="ArrowRight">RIGHT</button>
+                </div>
+
+            </main>
+            <div class="overlay">
+                <div class="game-over-msg">
+                    <p>Game Over!</p>
+                </div>
+                <div class="restart-div">
+                    <button class="restart">Restart</button>
                 </div>
             </div>
+        </div>
 
-            <div class="reset">
-                <button class="new-game">New Game</button>
-            </div>
 
-            <div class="board grid-container">
-                <div id="cl00" class="board-cell"></div>
-                <div id="cl01" class="board-cell"></div>
-                <div id="cl02" class="board-cell"></div>
-                <div id="cl03" class="board-cell"></div>
-                <div id="cl10" class="board-cell"></div>
-                <div id="cl11" class="board-cell"></div>
-                <div id="cl12" class="board-cell"></div>
-                <div id="cl13" class="board-cell"></div>
-                <div id="cl20" class="board-cell"></div>
-                <div id="cl21" class="board-cell"></div>
-                <div id="cl22" class="board-cell"></div>
-                <div id="cl23" class="board-cell"></div>
-                <div id="cl30" class="board-cell"></div>
-                <div id="cl31" class="board-cell"></div>
-                <div id="cl32" class="board-cell"></div>
-                <div id="cl33" class="board-cell"></div>
-            </div>
-            
-
-            <div class="controls">
-                <button class="up">UP</button>
-                <button class="left">LEFT</button>
-                <button class="down">DOWN</button>
-                <button class="right">RIGHT</button>
-            </div>
-            
-        </main>
     </div>
 </body>
 
