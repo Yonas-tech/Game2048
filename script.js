@@ -55,6 +55,14 @@ class Game2048 {
         return this.score;
     }
 
+    resetScore() {
+        this.score = 0;
+    }
+
+    resetBoard() {
+        this.board = this.generateBoard()
+    }
+
     // ################ Toolbox Methods: ################ 
 
     // sweepColumnUp() is the algorithm to process the movements, and it is for the 'Up' move originally.
@@ -253,11 +261,11 @@ class Game2048 {
         let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
         // FOR TEST:
         // board2048 = [[2, 4, 0, 16], [32, 256, 16, 0], [4, 0, 64, 16], [2, 4, 32, 0]];
-        // board2048 =
-        //     [[2, 32, 4, 2],
-        //     [2, 64, 2, 16],
-        //     [2, 256, 32, 8],
-        //     [2, 32, 8, 2]];
+        board2048 =
+            [[1024, 32, 4, 2],
+            [1024, 64, 2, 16],
+            [2, 256, 32, 8],
+            [2, 2, 2, 2]];
 
         // plug in 2s at two random positions for starting;
         board2048 = this.plugInValForA0(board2048, 2);
@@ -299,13 +307,12 @@ class GameDirector {
 
         this.game.recordScore();        // record the current score for the current game
         this.setMaxScore()              // check/record the current max score for the current game
-        // this.checkGameStatus();         // after the move, check the game status againest the rules
 
         // return this.game;
     }
 
     // ######################### Game Status:
-    checkGameStatus() {
+    gameStatus() {
         let zeroIndexes = this.game.getAllValIndexes(this.game.board, 0);
 
         // check if any of the cells value is == 2048 
@@ -383,7 +390,9 @@ class GameDirector {
     restart() {
         this.game.recordScore();
         this.pastScores.push(this.game.getScore());
-        this.game = new Game2048();
+        // this.game.board = this.game.generateBoard();
+        this.game.resetBoard();
+        this.game.resetScore();
         this.status = 0;
         console.log("\n GAME RESTARTED.\n")
     }
@@ -411,16 +420,8 @@ class GameDirector {
     }
 
     // setter Mothds:
-    setMaxScore() { // calculates and sets the max past score, maxScore
-        if (this.pastScores != null) {
-            let pastMax = Math.max(this.pastScores);
-            this.maxScore = pastMax > this.game.getScore() ? pastMax : this.game.getScore()
-            this.game.getScore
-        }
-        else {
-            this.maxScore = this.maxScore > this.game.getScore() ? this.maxScore : this.game.getMaxScore()
-        }
-        // console.log(this.maxScore)
+    setMaxScore() { // calculates and sets the max score, maxScore
+        this.maxScore = this.maxScore > this.game.getScore() ? this.maxScore : this.game.getScore();
     }
 
 }
@@ -465,6 +466,15 @@ const columns = play2048.getBoard()[0].length;
 const rows = play2048.getBoard().length;
 
 
+// check Game Status(win/loose/continue playing)
+function checkGameStatus(){
+    play2048.gameStatus();
+    if (play2048.status == -1 || play2048.status == 1) {
+        console.log("here 4");
+        gameOver(play2048.status);
+    }
+}
+
 
 // update the board whenever necessary
 function updateBoard() {
@@ -482,33 +492,34 @@ function updateBoard() {
     }
 }
 updateBoard()
-play2048.checkGameStatus()
+
 
 // Game Over
 let gameOverMsg = "";
 const gameOverMsgEl = document.querySelector(".game-over-msg");
 function gameOver(status) { // -1 or 1
     if (status == -1) {
-        gameOverMsg = "<p class='overMsg'>You Lost.</p>";
+        gameOverMsg = "<p class='winnerMsg'>You Lost.</p>";
         gameOverMsgEl.appendChild = gameOverMsg;
-        overlayEl.style.width = "100%";
+        overlayEl.style.width = "580px";//"100%";
     }
     else if (status == 1) {
-        gameOverMsg = "<p class='overMsg'>You Won.</p>";
+        gameOverMsg = "<p class='winnerMsg'>You Won.</p>";
         gameOverMsgEl.appendChild = gameOverMsg;
-        overlayEl.style.width = "100%";
+        overlayEl.style.width = "580px";//"100%";
     }
 
     // Restart after the game is over:
     const restartEl = document.querySelector(".restart");
     const restartDiv = document.querySelector(".restart-div")
+    let winnerMsgEl = document.querySelector(".winnerMsg");
+    console.log(winnerMsgEl)
 
     restartDiv.addEventListener("click",
     (e) => {
         if(e.target == restartEl){
             overlayEl.style.width = "0";
-            // let overMsgEl = document.querySelector(".overMsg");
-            // gameOverMsgEl.removeChild(overMsgEl);
+            // gameOverMsgEl.removeChild(winnerMsgEl);
             play2048.restart();
             updateBoard();
             console.log("here 6")
@@ -528,20 +539,15 @@ function handleClick(event) {
             const id = el.id;
             play2048.move(id);
             updateBoard();
-            play2048.checkGameStatus();
+            checkGameStatus();
         }
     }
-    else if (play2048.status == -1 || play2048.status == 1) {
-        console.log("here 4");
-        gameOver(play2048.status);
-    }
 
-    // handle restarting game, if new game clicked before game over
+    // handling if new-game button clicked before game over
     if (el == resetEl) {
         play2048.restart();
         updateBoard()
     }
-
 }
 
 function handleKeyboard(event) {
@@ -550,7 +556,7 @@ function handleKeyboard(event) {
         if (moveKeys.indexOf(keyName) != -1) {
             play2048.move(keyName);
             updateBoard();
-            play2048.checkGameStatus();
+            checkGameStatus();
         }
     }
 }
