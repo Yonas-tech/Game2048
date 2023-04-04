@@ -486,7 +486,7 @@ function handleKeyboard(event) {
             updateBoard();
             checkGameStatus();
             //on screen button effects
-
+            
         }
     }
 }
@@ -564,7 +564,7 @@ function gameOver(status) { // -1 or 1
 }
 
 
-$("#ArrowLeft").bind('change keypress', function(e){
-    // your code
-  });
+// $("#ArrowLeft").bind('change keypress', function(e){
+//     // your code
+//   });
 
