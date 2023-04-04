@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="cssReset.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+    <!-- <link rel="stylesheet" href="cellStyles.css"> -->
+    <!-- <link rel="stylesheet" href="oldStyle.css"> -->
+
     <script defer src="script.js" charset="utf-8"></script>
 </head>
 
@@ -19,7 +22,7 @@
 
         <div class="container">
             <main>
-                <div class="main-top">
+                <div class="main-top score-board">
                     <p class="score-label">Score :</p>
                     <p class="score"></p>
                     <p class="max-score-label">Max Score :</p>
@@ -31,44 +34,44 @@
                 </div>
 
                 <div class="board grid-container">
-
-                    <div id="cl00" class="board-cell"></div>
-                    <div id="cl01" class="board-cell"></div>
-                    <div id="cl02" class="board-cell"></div>
-                    <div id="cl03" class="board-cell"></div>
-                    <div id="cl10" class="board-cell"></div>
-                    <div id="cl11" class="board-cell"></div>
-                    <div id="cl12" class="board-cell"></div>
-                    <div id="cl13" class="board-cell"></div>
-                    <div id="cl20" class="board-cell"></div>
-                    <div id="cl21" class="board-cell"></div>
-                    <div id="cl22" class="board-cell"></div>
-                    <div id="cl23" class="board-cell"></div>
-                    <div id="cl30" class="board-cell"></div>
-                    <div id="cl31" class="board-cell"></div>
-                    <div id="cl32" class="board-cell"></div>
-                    <div id="cl33" class="board-cell"></div>
+                    <div id="cl00" class="board-cell button-73"></div>
+                    <div id="cl01" class="board-cell button-73"></div>
+                    <div id="cl02" class="board-cell button-73"></div>
+                    <div id="cl03" class="board-cell button-73"></div>
+                    <div id="cl10" class="board-cell button-73"></div>
+                    <div id="cl11" class="board-cell button-73"></div>
+                    <div id="cl12" class="board-cell button-73"></div>
+                    <div id="cl13" class="board-cell button-73"></div>
+                    <div id="cl20" class="board-cell button-73"></div>
+                    <div id="cl21" class="board-cell button-73"></div>
+                    <div id="cl22" class="board-cell button-73"></div>
+                    <div id="cl23" class="board-cell button-73"></div>
+                    <div id="cl30" class="board-cell button-73"></div>
+                    <div id="cl31" class="board-cell button-73"></div>
+                    <div id="cl32" class="board-cell button-73"></div>
+                    <div id="cl33" class="board-cell button-73"></div>
                 </div>
-                
+
                 <div class="controls">
-                    <button class="up" id="ArrowUp">UP</button>
-                    <button class="left" id="ArrowLeft">LEFT</button>
-                    <button class="down" id="ArrowDown">DOWN</button>
-                    <button class="right" id="ArrowRight">RIGHT</button>
+                   
+                    <button class="left arrow-btns" id="ArrowLeft">&#8678</button>
+                    <button class="down arrow-btns" id="ArrowDown">&#8681</button>
+                    <button class="right arrow-btns" id="ArrowRight">&#8680</button>
+                     <button class="up arrow-btns" id="ArrowUp">&#8679</button>
                 </div>
 
             </main>
             <div class="overlay">
-                <div class="game-over-msg">
-                    <p>Game Over!</p>
-                </div>
-                <div class="restart-div">
-                    <button class="restart">Restart</button>
+                <div class="game-over-screen">
+                    <div class="game-over-msg">
+                        <p>Game Over!</p>
+                    </div>
+                    <div class="restart-div">
+                        <button class="restart">Restart</button>
+                    </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 </body>
 
