@@ -85,4 +85,6 @@ Functions used to integrate the DOM variables with the main javascript are:
 * `updateBoard()` : updates the visual board at the start of the game and for every move
 * `gameOver()` : manages the game over visual effects, messages and the reset button. 
 
-### Features of the game:
+### Technology used: 
+    HTML, CSS, Javascript
+
