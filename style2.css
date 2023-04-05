@@ -163,7 +163,8 @@ body {
                 top: 75%;
             }
                 .restart{
-
+                    border: solid rgb(0, 170, 255) 2px;
+                    font-size: ;
                 }
                 .winnerMsg {
                     top: 50%;
