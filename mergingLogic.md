@@ -2,7 +2,9 @@
 Sudo code for column sweep with the move UP:
 
 ```
-For (I= 0 to 3)	{
+For (i= 0 to 3)	{
+
+	
 	If (sum of column == 0)
 		{	return;	}
 	Else if ( value(0,0) == val(1,0) )		{	val(0,0) = val(0,0) + val(1,0)	}
