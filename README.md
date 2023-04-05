@@ -53,7 +53,7 @@ The player moves/slides the numbers to collide them each other. If any two (2) n
 
 ## The Logic of the code:
 _______
-1. I initially built a code that sweeps upward a single column. This code applys all the rules of the game to add and merge numbers, move them up, and many more logics. 
+1. I initially built a code that sweeps upward a single column. This code applys all the rules of the game to add and merge numbers, move them to the right cells, and many more logics. [Here](https://github.com/Yonas-tech/Game2048/blob/main/images/mergingLogic.css) is the sudo code for the logics.  
 2. Then, I used this code in a for loop to sweep upward through the next 3 columns. and this completes the up-move. This is the longest part of program covering if and else if conditions of the game logic. The code spans about 200 lines (see sweepColumnUp method in the class Game2048 inside script.js). 
 3. For the other 3 direction moves, I used some math techniques for minimal codding:
      1. Left Move: the input array gets transposed first, then up-move method, and transposed back. 
