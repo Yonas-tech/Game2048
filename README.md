@@ -49,11 +49,6 @@ The player moves/slides the numbers to collide them each other. If any two (2) n
 
 * **Game Controls/keys:**
 	To move/slide the numbers, the player uses the onscreen four arrow buttons or the arrow keys or w, s, a, d keys on the keyboard to slide the numbers to up, down, left, or right directions. 
-	- onscreen buttons
-	- keyboard buttons
-	- reset button 
-	- restart button
-
 
 
 ## The Logic of the code:

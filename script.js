@@ -259,15 +259,17 @@ class Game2048 {
     generateBoard() {
         let board2048 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
         // FOR TEST:
+        //    for win case: 
         // board2048 = [[2, 4, 0, 16], 
         //             [32, 256, 16, 2], 
         //             [4, 0, 64, 16], 
         //             [2, 4, 32, 0]];
-        board2048 =
-            [[1024, 32, 4, 2],
-            [1024, 64, 2, 16],
-            [2, 256, 32, 8],
-            [2, 2, 2, 2]];
+        //    for loose case:
+        // board2048 =
+        //     [[1024, 32, 4, 2],
+        //     [1024, 64, 2, 16],
+        //     [2, 256, 32, 8],
+        //     [2, 2, 2, 2]];
 
         let rand = Math.random();
         // plug in 2s at two random positions for starting;
