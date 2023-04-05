@@ -11,7 +11,8 @@ Since then I have been playing the game, the math is very simple, it is just add
 > “2048 is a popular single-player game for Web and mobile. It’s a type of “sliding block puzzle” — think Threes!, on which 2048 is based, or the old-timey game klotski — that’s played on an almost Sudoku-like grid. Like Sudoku, it also involves some math. The object of the game is to combine the numbers displayed on the tiles until you reach 2048.”
 > Read more: here (https://www.washingtonpost.com/news/arts-and-entertainment/wp/2014/04/23/everything-you-ever-wanted-to-know-about-2048-the-internets-latest-impossible-hit-game/ )
 >
-So I decided to code this lovely game myself from scratch. 
+
+I decided to code this lovely game myself from scratch and give it my own touch. 
 
 ## The Game: 
 
@@ -29,6 +30,10 @@ The player moves/slides the numbers to collide them each other. If any two (2) n
 
 * **LOOSE STATE:**
 	The player looses if before reaching to 2048, all cells on the grid are filled and no adjacent numbers are equal to slide and merge/add them.
+
+![GameOver.YouWon](https://github.com/Yonas-tech/Game2048/blob/main/images/GO_uWon.jpg)
+![GameOver.YouLost](https://github.com/Yonas-tech/Game2048/blob/main/images/loose.jpg)
+
 
 * **RE-START:** The game ends in either case of Win or Loose state. Game Over screen presents which state happened along with a restart button. This button restarts the game with a newly generated grid board. 
 
@@ -67,8 +72,8 @@ _______
 * **Class Game2048:**
     * Properties: board, score
     * Methods: 
-        * moveUp(), moveLeft(), moveDown(), moveRight(): these are the 4 methods that process the 4 possible moves the player can make. 
-        * Other methods: sweepColumnUp(), recordScore(), getScore(), resetScore(), resetBoard(), plugInValForA0(), getAllValIndexs(), transpose(array), generateBoard(), 
+        * `moveUp(), moveLeft(), moveDown(), moveRight()`: these are the 4 methods that process the 4 possible moves the player can make. 
+        * Other methods: `sweepColumnUp(), recordScore(), getScore(), resetScore(), resetBoard(), plugInValForA0(), getAllValIndexs(), transpose(array), generateBoard()`, 
 
 * **Class GameDirector:**
 Starts with instantiating the Game2048 class. 
@@ -79,8 +84,8 @@ Starts with instantiating the Game2048 class.
 __________
 This Javascript file instantiates the GameDirector class and manipulates the game along with DOM variables using multiple functions. 
 Functions used to integrate the DOM variables with the main javascript are:  
-handleClick() : Handles on-screen game buttons and a reset button
-handleKeyboard() : Handles keyboard control keys
-checkGameStatus() : check Game Status(win/loose/continue playing) after every player input through the game control keys and/or buttons. 
-updateBoard() : updates the visual board at the start of the game and for every move
-gameOver() : manages the game over visual effects, messages and the reset button. 
+* `handleClick()` : Handles on-screen game buttons and a reset button
+* `handleKeyboard()` : Handles keyboard control keys
+* `checkGameStatus()` : check Game Status(win/loose/continue playing) after every player input through the game control keys and/or buttons. 
+* `updateBoard()` : updates the visual board at the start of the game and for every move
+* `gameOver()` : manages the game over visual effects, messages and the reset button. 
