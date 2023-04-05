@@ -89,3 +89,5 @@ Functions used to integrate the DOM variables with the main javascript are:
 * `checkGameStatus()` : check Game Status(win/loose/continue playing) after every player input through the game control keys and/or buttons. 
 * `updateBoard()` : updates the visual board at the start of the game and for every move
 * `gameOver()` : manages the game over visual effects, messages and the reset button. 
+
+### Features of the game:

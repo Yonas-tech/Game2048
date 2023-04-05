@@ -263,11 +263,11 @@ class Game2048 {
         //             [32, 256, 16, 2], 
         //             [4, 0, 64, 16], 
         //             [2, 4, 32, 0]];
-        // board2048 =
-        //     [[1024, 32, 4, 2],
-        //     [1024, 64, 2, 16],
-        //     [2, 256, 32, 8],
-        //     [2, 2, 2, 2]];
+        board2048 =
+            [[1024, 32, 4, 2],
+            [1024, 64, 2, 16],
+            [2, 256, 32, 8],
+            [2, 2, 2, 2]];
 
         let rand = Math.random();
         // plug in 2s at two random positions for starting;
@@ -389,9 +389,7 @@ class GameDirector {
             // show a small window showing the result, and a restart button 
             this.pastScores.push(this.game.getScore());
             console.log("game over")
-
         }
-
     }
 
     // Restart the board, maxScore won't be reset
