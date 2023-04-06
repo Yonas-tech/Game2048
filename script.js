@@ -42,7 +42,7 @@ class Game2048 {
         this.plugInValForA0();
     }
 
-    recordScore() {
+    recordScore() { // calculate the current score: maximum number on the number
         let max = (a, b) => { return a < b ? b : a; }
         this.score = [this.board[0].reduce(max),
         this.board[1].reduce(max),

@@ -12,13 +12,17 @@ Since then I have been playing the game, the math is very simple, it is just add
 > [Read more](https://www.washingtonpost.com/news/arts-and-entertainment/wp/2014/04/23/everything-you-ever-wanted-to-know-about-2048-the-internets-latest-impossible-hit-game/ ).
 >
 
-I decided to code this interestingly annoying game myself from scratch and give it my own touch. 
+
+I decided to code this interestingly annoying game myself from scratch using Javascript and give it my own touch. I use no framework for this project. 
+
 
 ## The Game: 
 ### Sudo Code
 1. Generate a new Board(): 
 2. Display the board to the player. 
+
     ![start](https://github.com/Yonas-tech/Game2048/blob/main/images/startPage.jpg)
+
 3. Accept and Process Player Move: up, down, left, or right
     * If any two (2) numbers that are colliding are equal, they get added and merged into one cell. At each move, another tile with a 2 or a 4 will be inserted at randome position.
 4. Check the board/game status
@@ -28,11 +32,8 @@ I decided to code this interestingly annoying game myself from scratch and give 
 5. Back to step 2. 
 
 ### **Game Controls/keys:**
-	To move/slide the numbers, the player uses the onscreen four arrow buttons or the arrow keys or w, s, a, d keys on the keyboard to slide the numbers to up, down, left, or right directions. 
 
-
-* **RE-START:** The game ends in either case of Win or Loose state. Game Over screen presents which state happened along with a restart button. This button restarts the game with a newly generated grid board.
-![GameOver.YouWon](https://github.com/Yonas-tech/Game2048/blob/main/images/GO_uWon.jpg)   ![GameOver.YouLost](https://github.com/Yonas-tech/Game2048/blob/main/images/loose.jpg)
+To move/slide the numbers, the player uses the onscreen four arrow buttons or the arrow keys or w, s, a, d keys on the keyboard to slide the numbers to up, down, left, or right directions. 
 
 
 * **NEW GAME:** the player can restart/reset the game at any point of playing. It restarts the game with a newly generated grid board. 
@@ -43,7 +44,9 @@ I decided to code this interestingly annoying game myself from scratch and give 
 	- Score: is the maximum number on the current board.  At every generation of new board, The New Game button or the Restart button after Game Over. 
 	- Max Score: is highest Score reached from consecutive plays. It does not reset with the click of the New Game button while on live game or the Restart button at Game Over. If the player wants to reset the Max Score, the window/tab has to be refreshed or open and on a new tab. 
 
+* **RE-START:** The game ends in either case of Win or Loose state. Game Over screen presents which state happened along with a restart button. This button restarts the game with a newly generated grid board.
 
+![GameOver.YouWon](https://github.com/Yonas-tech/Game2048/blob/main/images/GO_uWon.jpg)   ![GameOver.YouLost](https://github.com/Yonas-tech/Game2048/blob/main/images/loose.jpg)
 
 
 ## The Logic of the code in the background:
@@ -60,20 +63,22 @@ _______
 
     3.3. Right Move: array gets transposed, followed by reverse, followed by up-move, then transpose and reverse back. 
  
-## Code Organiztion:
+## Code Organization:
 _______
+To I used two Javascript files. This is to have my classes separate from where I manipulate the DOM variables. The only way I have access to the classes is using the methods I created inside the classes. By having the classes in a completely different file allows me to manage how important variables are accessed and updated in my code and easy maintainability of the code. 
 
-### script.js: contains two classes 
+### script.js: 
+Contains two classes:
 * **Class Game2048:**
-    * Properties: board, score
+    * Properties: `board, score`
     * Methods: 
         * `moveUp(), moveLeft(), moveDown(), moveRight()`: these are the 4 methods that process the 4 possible moves the player can make. 
         * Other methods: `sweepColumnUp(), recordScore(), getScore(), resetScore(), resetBoard(), plugInValForA0(), getAllValIndexs(), transpose(array), generateBoard()`, 
 
 * **Class GameDirector:**
 Starts with instantiating the Game2048 class. 
-    * Properties: game, maxScore, pastScores, status
-    * Methods: move(moveDirectionInput), gameStatus(), restart(), getBoard(), getMaxScore(), getPastScores(), printGameBoard(), setMaxScore()
+    * Properties: `game, maxScore, pastScores, status`
+    * Methods: `move(moveDirectionInput), gameStatus(), restart(), getBoard(), getMaxScore(), getPastScores(), printGameBoard(), setMaxScore()`
 
 ### gameRunner.js
 __________
@@ -86,12 +91,12 @@ Functions used to integrate the DOM variables with the main javascript are:
 * `gameOver()` : manages the game over visual effects, messages and the reset button. 
 
 
-### Technology used: 
+## Technology used: 
     * HTML, 
     * CSS: flex, grid, transition... etc 
     * Javascript: classes, functions, DOM variables... etc
 
-### Future development:
+## Future development:
     - different sizes and shapes of grid;
     - levels of difficulties
     - more animations 
